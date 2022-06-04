@@ -1,0 +1,10 @@
+.nav{
+    background-color: blue;
+    
+    display: flex;
+    justify-content: space-between;
+    
+       &-item{
+          list-style: none;
+       }
+}  
