@@ -11,11 +11,19 @@ export default function Pokemons({data}){
            const data = await getAllPokes(poke.name)
            const pokeObj = {
                 name: poke.name,
-                img: data.data.sprites.other.dream_world.front_default
+                img: data.data.sprites.other.dream_world.front_default,
+                statistcs: getStatistcs(data.data.stats)
            }
-           setPokemons((state)=> [...state, pokeObj]);
+           setPokemons((state)=> [...state, pokeObj]); 
         }); 
     }, [data]);
+
+    const getStatistcs = (stats) => {
+        const pokeStatistic = stats.map((stat)=> (
+            {name: stat.stat.name, status: stat.base_stat }
+        ))
+        console.log(pokeStatistic);
+    }
 
     useEffect(getAll, [getAll]);
 
@@ -28,10 +36,10 @@ export default function Pokemons({data}){
                     </CardHeader>
                     <CardBody>
                         <CardTitle>{item?.name}</CardTitle>
+                   {/*      <span>{item.statistcs.HP.name.toUpperCase()}</span>
+                        <span>{item.statistcs.HP.status}</span> */}
                         <Button color="primary">Infos</Button>
                     </CardBody>
-                    <CardFooter>
-                    </CardFooter> 
                 </Card>
             ))}
         </div>
