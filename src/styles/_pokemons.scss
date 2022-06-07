@@ -1,0 +1,29 @@
+.container-pokemons{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-left: 37px;
+    font-family: 'Open Sans', sans-serif;
+    
+    .card{
+    margin: 40px;
+
+    &-title::first-letter{
+        text-transform: uppercase;
+
+    }
+
+    &-header{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        max-height: 5000px;
+
+        img{
+            max-width: 70%;
+            max-height: 300px;
+            min-height: 300px;
+        }
+    }
+}
+}

@@ -3,7 +3,7 @@ const navBar = () => {
     return (
       <Nav>
           <NavItem>LOGO POKEDEX</NavItem>
-          <div>
+          <div className="nav-container-right">
               <NavItem>INPUT</NavItem>
               <NavItem>POKEBAG</NavItem>
           </div>
