@@ -1,18 +1,21 @@
 import {useState, useEffect, useCallback} from 'react';
-import {Card, CardHeader, CardBody, CardFooter, CardImg, CardTitle, Button, CardColumns, Row} from 'reactstrap';
+import PropTypes from 'prop-types';
+import {Card, CardHeader, CardBody, CardImg, CardTitle, Button} from 'reactstrap';
 import {getAllPokes} from '../../Service/api';
-
+import Modal from '../Modal';
 
 export default function Pokemons({data}){
     const [pokemons, setPokemons] = useState([]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const [openModal, setOpenModal] = useState();
+
     const getAll = useCallback(() =>{
         data?.map(async(poke) => {
            const data = await getAllPokes(poke.name)
            const pokeObj = {
                 name: poke.name,
                 img: data.data.sprites.other.dream_world.front_default,
-                statistcs: getStatistcs(data.data.stats)
+                statistcs: getStatistcs(data.data.stats),
+                types: getType(data.data),
            }
            setPokemons((state)=> [...state, pokeObj]); 
         }); 
@@ -21,9 +24,16 @@ export default function Pokemons({data}){
     const getStatistcs = (stats) => {
         const pokeStatistic = stats.map((stat)=> (
             {name: stat.stat.name, status: stat.base_stat }
+        ));
+        return pokeStatistic;
+    };
+
+    const getType = (data) => {
+        let type = data?.types?.map((pokeType)=> (
+            pokeType.type.name
         ))
-        console.log(pokeStatistic);
-    }
+        return type;
+    };
 
     useEffect(getAll, [getAll]);
 
@@ -31,17 +41,20 @@ export default function Pokemons({data}){
         <div className="container-pokemons"> 
             {pokemons?.map((item, key)=> (
                 <Card key={key}>
+                    {openModal === item.name && <Modal isOpen={true} setIsOpen={setOpenModal} data={item}/>}
                     <CardHeader>
                         <CardImg src={item?.img} alt={item.name} />
                     </CardHeader>
                     <CardBody>
                         <CardTitle>{item?.name}</CardTitle>
-                   {/*      <span>{item.statistcs.HP.name.toUpperCase()}</span>
-                        <span>{item.statistcs.HP.status}</span> */}
-                        <Button color="primary">Infos</Button>
+                        <Button color="primary" onClick={()=> setOpenModal(item.name)}>Infos</Button>
                     </CardBody>
                 </Card>
             ))}
         </div>
     )
-}
+};
+
+Pokemons.propTypes = {
+    data: PropTypes.array.isRequired,
+};
