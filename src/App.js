@@ -1,9 +1,13 @@
 import Routes from './routes';
+import {AppProvider} from './Components/Container';
 import './index.css';
+
 
 function App() {
   return (
-    <Routes />
+    <AppProvider>
+      <Routes />
+    </AppProvider>
   );
 }
 
