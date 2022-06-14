@@ -7,20 +7,23 @@ import Modal from '../Modal';
 export default function Pokemons({data}){
     const [pokemons, setPokemons] = useState([]);
     const [openModal, setOpenModal] = useState();
-    const [loading, setLoading] = useState(false);
 
     const getAll = useCallback(() =>{
-        data?.map(async(poke) => {
+        const pokeObj = []
+        data?.forEach(async(poke) => {
            const data = await getAllPokes(poke.name)
-           const pokeObj = {
+           pokeObj.push(
+            {
                 id: data.data.id,
                 name: poke.name,
                 img: data.data.sprites.other.dream_world.front_default,
                 statistcs: getStatistcs(data.data.stats),
                 types: getType(data.data),
            }
-           setPokemons((state)=> [...state, pokeObj]); 
+           )
         }); 
+        console.log(pokeObj)
+        setTimeout(setPokemons(pokeObj), 5000);
     }, [data]);
 
     const getStatistcs = (stats) => {

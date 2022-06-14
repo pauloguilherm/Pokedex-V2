@@ -9,7 +9,7 @@ const NavBar = () => {
           <NavItem>LOGO POKEDEX</NavItem>
           <div className="nav-container-right">
               <NavItem>
-                <Input type="text" placeholder="Search..."/>
+                <Input type="text" placeholder="Search..." onChange={(e)=> setSearch(e.target.value)}/>
               </NavItem>
               <NavItem>POKEBAG</NavItem>
           </div>

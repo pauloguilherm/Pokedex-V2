@@ -101,7 +101,7 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
 GenericModal.propTypes = {
     isOpen: PropTypes.bool,
     setIsoOpen: PropTypes.func,
-    data: PropTypes.object,
+    data: PropTypes.array,
 };
 
 export default GenericModal;
