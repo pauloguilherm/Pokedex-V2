@@ -1,6 +1,6 @@
 import {Modal, ModalHeader, ModalBody, ModalFooter, Badge} from 'reactstrap';
 import {getEvolutions, getAllPokes} from '../../Service/api';
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, memo, useCallback} from 'react';
 import PropTypes from 'prop-types';
 
 const GenericModal = ({isOpen, setIsOpen, data}) => {
@@ -65,14 +65,13 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
             },
         };
         setPokeData(evolutionsObj);
-        console.log(evolutionsObj);
     }, [data.id]);
 
     evolutions()
     return(
     <Modal isOpen={isOpen} toggle={() => setIsOpen(!isOpen)}>
         <ModalHeader>
-            <h6>{data?.name}</h6>
+            <span>{data?.name}</span>
             <span>{data.types.map((type, key)=> (<Badge key={key} color={typeStyle(type)}>{type}</Badge>))}</span>
         </ModalHeader>
         <ModalBody className="d-flex justify-content-center">
@@ -101,7 +100,7 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
 GenericModal.propTypes = {
     isOpen: PropTypes.bool,
     setIsoOpen: PropTypes.func,
-    data: PropTypes.array,
+    data: PropTypes.object,
 };
 
-export default GenericModal;
+export default memo(GenericModal);

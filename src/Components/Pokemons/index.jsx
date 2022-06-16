@@ -7,24 +7,24 @@ import Modal from '../Modal';
 export default function Pokemons({data}){
     const [pokemons, setPokemons] = useState([]);
     const [openModal, setOpenModal] = useState();
-
+    
     const getAll = useCallback(() =>{
         const pokeObj = []
-        data?.forEach(async(poke) => {
+        data?.map(async(poke, key) => {
            const data = await getAllPokes(poke.name)
-           pokeObj.push(
-            {
-                id: data.data.id,
-                name: poke.name,
-                img: data.data.sprites.other.dream_world.front_default,
-                statistcs: getStatistcs(data.data.stats),
-                types: getType(data.data),
-           }
-           )
+           pokeObj[key] = 
+           {
+            id: data.data.id,
+            name: data.data.name,
+            img: data.data.sprites.other.dream_world.front_default,
+            statistcs: getStatistcs(data.data.stats),
+            types: getType(data.data),
+            }
         }); 
-        console.log(pokeObj)
-        setTimeout(setPokemons(pokeObj), 5000);
-    }, [data]);
+        setTimeout(()=> {
+            setPokemons(pokeObj);
+        },200)
+    },[data]);
 
     const getStatistcs = (stats) => {
         const pokeStatistic = stats.map((stat)=> (
@@ -89,13 +89,13 @@ export default function Pokemons({data}){
         <div className="container-pokemons">
             {pokemons?.map((item) => (
                 <Card key={item.id}>
-                    {openModal === item.name && <Modal isOpen={true} setIsOpen={setOpenModal} data={item} />}
+                    <Modal isOpen={item.id === openModal} setIsOpen={setOpenModal} data={item} />
                     <CardHeader style={{ backgroundColor: getTypeColor(item.types) }}>
                         <CardImg src={item?.img} alt={item.name} />
                     </CardHeader>
                     <CardBody>
                         <CardTitle>{item?.name} - 00{item?.id}</CardTitle>
-                        <Button color="primary" onClick={() => setOpenModal(item.name)}>Infos</Button>
+                        <Button color="primary" onClick={() => setOpenModal(item.id)}>Infos</Button>
                     </CardBody>
                 </Card>
             ))}

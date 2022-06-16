@@ -13,7 +13,7 @@ const Home = () => {
             setData(res.data.results);
         });
         setLoading(false);
-    },[offSet]);
+      },[offSet]);
 
     useEffect(()=>loadData, [loadData, offSet]);
     
