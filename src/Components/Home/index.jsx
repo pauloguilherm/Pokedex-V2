@@ -1,28 +1,32 @@
 import Pokemons from '../Pokemons';
 import {useState, useEffect, useCallback} from 'react';
+import {useContext} from 'react';
+import {AppContext} from '../Container';
 import {Button} from 'reactstrap';
 import {getData} from '../../Hooks/api';
 const Home = () => {
     const [data, setData] = useState([]);
-    const [offSet, setOffSet] = useState(0);
+    const {search, limitPokemons, setLimitPokemons} = useContext(AppContext);
     const [loading, setLoading] = useState(false);
 
      const loadData = useCallback(async() => {
         setLoading(true);
-        await getData(offSet).then(res => {
+        await getData(limitPokemons).then(res => {
             setData(res.data.results);
         });
         setLoading(false);
-      },[offSet]);
+      },[limitPokemons]);
 
-    useEffect(()=>loadData, [loadData, offSet]);
+    useEffect(()=> {
+      loadData();
+    }, [loadData, limitPokemons]);
     
     return(
         <>
           <Pokemons data={data}/>
-          <Button color="primary" onClick={()=> setOffSet((set)=> set+10)}>
+          {!search && <Button color="primary" onClick={()=> setLimitPokemons((limit)=> limit+10)}>
             {loading ? 'Loading...' : 'Load More'}
-          </Button>
+          </Button>}
         </>
     )
 }

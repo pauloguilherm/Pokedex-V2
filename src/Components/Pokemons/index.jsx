@@ -5,6 +5,7 @@ import {getAllPokes} from '../../Hooks/api';
 import {AppContext} from '../Container';
 import {useContext} from 'react';
 import Modal from '../Modal';
+import {toast} from 'react-toastify';
 export default function Pokemons({data}){
     const {search} = useContext(AppContext);
     const [pokemons, setPokemons] = useState([]);
@@ -15,9 +16,9 @@ export default function Pokemons({data}){
         .then(res => res)
         .catch(err => err.response.status);
         if(data === 404){
-            console.log('eror')
-        }
-        
+            toast.error('Pokemon not found');
+            return
+        };
         const newObj = 
         {
             id: data.data.id,
@@ -110,14 +111,14 @@ export default function Pokemons({data}){
     useEffect(getAll, [getAll]);
 
     return(
-        <div className="container-pokemons">
+        <div className='container-pokemon' style={search && {gridTemplateColumns: '1fr'}}>
             {pokemons?.map((item) => (
                 <Card key={item.id}>
                     {item.id === openModal && <Modal isOpen={item.id === openModal} setIsOpen={setOpenModal} data={item} />}
                     <CardHeader style={{ backgroundColor: getTypeColor(item.types) }}>
                         <CardImg src={item?.img} alt={item.name} />
                     </CardHeader>
-                    <CardBody>
+                    <CardBody className={search && 'card-search'}>
                         <CardTitle>{item?.name} - 00{item?.id}</CardTitle>
                         <Button color="primary" onClick={() => setOpenModal(item.id)}>Infos</Button>
                     </CardBody>

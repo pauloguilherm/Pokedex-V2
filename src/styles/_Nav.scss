@@ -23,4 +23,9 @@
          display: flex;
          flex-direction: row-reverse;
        }
+       
+       .formSearch{
+         display: grid;
+         grid-template-columns: 1fr;
+       }
 }  

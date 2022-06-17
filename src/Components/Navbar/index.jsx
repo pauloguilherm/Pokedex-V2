@@ -1,7 +1,8 @@
-import {Nav, NavItem, Input, Button} from "reactstrap";
+import {Nav, NavItem, Input, Button, Form} from "reactstrap";
 import {AppContext} from '../Container';
 import {useContext, useRef} from 'react';
 import {FaSearch} from 'react-icons/fa';
+
 const NavBar = () => {
     const {setSearch} = useContext(AppContext);
     const formRef = useRef(null);
@@ -9,17 +10,18 @@ const NavBar = () => {
     const handleSubmitForm = (payload) => {
       payload.preventDefault();
       setSearch(payload.target[0].value);
+      payload.target[0].value = "";
     };
 
   return (
       <Nav>
-          <NavItem>LOGO POKEDEX</NavItem>
+          <NavItem>MENU</NavItem>
           <div className="nav-container-right">
               <NavItem>
-                <form onSubmit={handleSubmitForm} ref={formRef}>
+                <Form onSubmit={handleSubmitForm} ref={formRef}>
                   <Input type="text" name="search" placeholder="Search..." />
                   <Button type="submit" color="link"><FaSearch /></Button>
-                </form>
+                </Form>
               </NavItem>
               <NavItem>POKEBAG</NavItem>
           </div>

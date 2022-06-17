@@ -385,7 +385,14 @@ template {
           flex-direction: row-reverse;
 }
 
-.container-pokemons {
+.nav .formSearch {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+}
+
+.container-pokemon {
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 1fr 1fr 1fr;
@@ -394,15 +401,15 @@ template {
   font-family: 'Open Sans', sans-serif;
 }
 
-.container-pokemons .card {
+.container-pokemon .card {
   margin: 40px;
 }
 
-.container-pokemons .card-title::first-letter {
+.container-pokemon .card-title::first-letter {
   text-transform: uppercase;
 }
 
-.container-pokemons .card-header {
+.container-pokemon .card-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -416,10 +423,26 @@ template {
   max-height: 5000px;
 }
 
-.container-pokemons .card-header img {
+.container-pokemon .card-header img {
   max-width: 50%;
   max-height: 300px;
   min-height: 300px;
+}
+
+.container-pokemon .card-search {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .modal-title {
