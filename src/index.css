@@ -392,6 +392,10 @@ template {
       grid-template-columns: 1fr;
 }
 
+.buttonMore {
+  padding: 30px;
+}
+
 .container-pokemon {
   display: -ms-grid;
   display: grid;
