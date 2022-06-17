@@ -1,5 +1,5 @@
 import {Modal, ModalHeader, ModalBody, ModalFooter, Badge} from 'reactstrap';
-import {getEvolutions, getAllPokes} from '../../Service/api';
+import {getEvolutions, getAllPokes} from '../../Hooks/api';
 import React, {useState, memo, useCallback} from 'react';
 import PropTypes from 'prop-types';
 
@@ -67,7 +67,7 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
         setPokeData(evolutionsObj);
     }, [data.id]);
 
-    evolutions()
+    evolutions();
     return(
     <Modal isOpen={isOpen} toggle={() => setIsOpen(!isOpen)}>
         <ModalHeader>

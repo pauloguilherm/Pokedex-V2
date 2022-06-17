@@ -1,7 +1,7 @@
 import Pokemons from '../Pokemons';
 import {useState, useEffect, useCallback} from 'react';
 import {Button} from 'reactstrap';
-import {getData} from '../../Service/api';
+import {getData} from '../../Hooks/api';
 const Home = () => {
     const [data, setData] = useState([]);
     const [offSet, setOffSet] = useState(0);

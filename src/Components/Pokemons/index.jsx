@@ -1,24 +1,48 @@
 import {useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {Card, CardHeader, CardBody, CardImg, CardTitle, Button} from 'reactstrap';
-import {getAllPokes} from '../../Service/api';
+import {getAllPokes} from '../../Hooks/api';
+import {AppContext} from '../Container';
+import {useContext} from 'react';
 import Modal from '../Modal';
-
 export default function Pokemons({data}){
+    const {search} = useContext(AppContext);
     const [pokemons, setPokemons] = useState([]);
     const [openModal, setOpenModal] = useState();
-    
+
+    const getSearchPokemon = async() => {
+        const data = await getAllPokes(search)
+        .then(res => res)
+        .catch(err => err.response.status);
+        if(data === 404){
+            console.log('eror')
+        }
+        
+        const newObj = 
+        {
+            id: data.data.id,
+            name: data.data.name,
+            img: data.data.sprites.other.dream_world.front_default,
+            statistcs: getStatistcs(data.data.stats),
+            types: getType(data.data),
+        };
+
+        setPokemons([newObj]);
+    };
+
+    if (search) getSearchPokemon();
+
     const getAll = useCallback(() =>{
         const pokeObj = []
         data?.map(async(poke, key) => {
            const data = await getAllPokes(poke.name)
            pokeObj[key] = 
            {
-            id: data.data.id,
-            name: data.data.name,
-            img: data.data.sprites.other.dream_world.front_default,
-            statistcs: getStatistcs(data.data.stats),
-            types: getType(data.data),
+              id: data.data.id,
+              name: data.data.name,
+              img: data.data.sprites.other.dream_world.front_default,
+              statistcs: getStatistcs(data.data.stats),
+              types: getType(data.data),
             }
         }); 
         setTimeout(()=> {
@@ -89,7 +113,7 @@ export default function Pokemons({data}){
         <div className="container-pokemons">
             {pokemons?.map((item) => (
                 <Card key={item.id}>
-                    <Modal isOpen={item.id === openModal} setIsOpen={setOpenModal} data={item} />
+                    {item.id === openModal && <Modal isOpen={item.id === openModal} setIsOpen={setOpenModal} data={item} />}
                     <CardHeader style={{ backgroundColor: getTypeColor(item.types) }}>
                         <CardImg src={item?.img} alt={item.name} />
                     </CardHeader>
