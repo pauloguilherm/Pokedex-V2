@@ -1,12 +1,13 @@
 import {useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {Card, CardHeader, CardBody, CardImg, CardTitle, Button} from 'reactstrap';
+import {AiOutlineArrowLeft} from 'react-icons/ai';
 import {getAllPokes} from '../../Hooks/api';
 import {AppContext} from '../Container';
 import {useContext} from 'react';
 import Modal from '../Modal';
 import {toast} from 'react-toastify';
-export default function Pokemons({data}){
+export default function Pokemons({data, loadData}){
     const {search, setSearch} = useContext(AppContext);
     const [pokemons, setPokemons] = useState([]);
     const [openModal, setOpenModal] = useState();
@@ -114,6 +115,8 @@ export default function Pokemons({data}){
     return(
         <div className='container-pokemon' style={search ? {gridTemplateColumns: '1fr'} : {gridTemplateColumns: '1fr 1fr 1fr'}}>
             {pokemons?.map((item) => (
+                <>
+                {search && <Button className="d-flex justify-content-start " color="link" onClick={()=> {loadData(); setSearch(false)}}><AiOutlineArrowLeft size="50"/></Button>}
                 <Card key={item.id}>
                     {item.id === openModal && <Modal isOpen={item.id === openModal} setIsOpen={setOpenModal} data={item} />}
                     <CardHeader style={{ backgroundColor: getTypeColor(item.types) }}>
@@ -124,6 +127,7 @@ export default function Pokemons({data}){
                         <Button color="primary" onClick={() => setOpenModal(item.id)}>Infos</Button>
                     </CardBody>
                 </Card>
+                </>
             ))}
         </div>
     )

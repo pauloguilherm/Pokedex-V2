@@ -1,6 +1,6 @@
 import {Modal, ModalHeader, ModalBody, ModalFooter, Badge} from 'reactstrap';
 import {getEvolutions, getAllPokes} from '../../Hooks/api';
-import React, {useState, memo, useCallback} from 'react';
+import React, {useState, memo, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 const GenericModal = ({isOpen, setIsOpen, data}) => {
@@ -67,12 +67,14 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
         setPokeData(evolutionsObj);
     }, [data.id]);
 
-    evolutions();
+    useEffect(()=> {
+        evolutions();
+    }, [data, evolutions]);
     return(
     <Modal isOpen={isOpen} toggle={() => setIsOpen(!isOpen)}>
         <ModalHeader>
             <span>{data?.name}</span>
-            <span>{data.types.map((type, key)=> (<Badge key={key} color={typeStyle(type)}>{type}</Badge>))}</span>
+            <span>{data.types.map((type) => <Badge key={type} color={typeStyle(type)}>{type}</Badge>)}</span>
         </ModalHeader>
         <ModalBody className="d-flex justify-content-center">
             <img src={data?.img} alt={data.name}/>
@@ -85,12 +87,19 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
         <ModalFooter className="d-flex">
             <h4 className="d-flex justify-content-flex-start">Evolutions</h4>
             <div>
+                {data.name !== pokeData?.firstEvolution?.name && (
+                <>
                 <span>{pokeData?.firstEvolution?.name}</span>
-                <img src={pokeData?.firstEvolution?.img} alt={pokeData?.firstEvolution?.name}/>
+                <img src={pokeData?.firstEvolution?.img} alt={pokeData?.firstEvolution?.name} />
+                </>)}
             </div>
             <div>
-                <span>{pokeData?.secondEvolution?.name}</span>
-                <img src={pokeData?.secondEvolution?.img} alt={pokeData?.secondEvolution?.name}/>
+                {data.name !== pokeData?.secondEvolution?.name && (
+                    <>
+                        <span>{pokeData?.secondEvolution?.name}</span>
+                        <img src={pokeData?.secondEvolution?.img} alt={pokeData?.secondEvolution?.name}/>
+                    </>
+                )}
             </div>
         </ModalFooter>
     </Modal>

@@ -25,10 +25,10 @@ const Home = () => {
     
     return(
         <>
-          <Pokemons data={data}/>
+          <Pokemons data={data} loadData={loadData}/>
           {!search && 
-          <div className="d-flex justify-content-center +">
-            <Button title="load more" color="link buttonMore" onClick={()=> setLimitPokemons((limit)=> limit+10)}>
+          <div className="d-flex justify-content-center">
+            <Button title="load more" color="link buttonMore" onClick={()=> setLimitPokemons(limit => limit + 10)}>
             {loading ? <AiOutlineLoading3Quarters size="50"/> : <BiArrowToBottom size="50" />}
           </Button>
           </div>}
