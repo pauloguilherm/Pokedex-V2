@@ -33,8 +33,6 @@ export default function Pokemons({data, loadData}){
         setPokemons([newObj]);
     };
 
-    if (search) getSearchPokemon();
-
     const getAll = useCallback(() =>{
         const pokeObj = []
         data?.map(async(poke, key) => {
@@ -111,6 +109,9 @@ export default function Pokemons({data, loadData}){
     };
 
     useEffect(getAll, [getAll]);
+    useEffect(()=> {
+        getSearchPokemon()
+    }, [search]);
 
     return(
         <div className='container-pokemon' style={search ? {gridTemplateColumns: '1fr'} : {gridTemplateColumns: '1fr 1fr 1fr'}}>
