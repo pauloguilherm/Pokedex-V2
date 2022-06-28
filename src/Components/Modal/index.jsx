@@ -2,6 +2,7 @@ import {Modal, ModalHeader, ModalBody, ModalFooter, Badge} from 'reactstrap';
 import {getEvolutions, getAllPokes} from '../../Hooks/api';
 import React, {useState, memo, useCallback, useEffect} from 'react';
 import PropTypes from 'prop-types';
+import { AiOutlineConsoleSql } from 'react-icons/ai';
 
 const GenericModal = ({isOpen, setIsOpen, data}) => {
     const [pokeData, setPokeData] = useState([]);
@@ -54,18 +55,22 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
         let firstEvolutionImg = await getAllPokes(firstEvolution.name).then((res)=> res.data.sprites.front_default);
         let secondEvolution = evolutions.data.chain.evolves_to[0].evolves_to[0].species;
         let secondEvolutionImg = await getAllPokes(secondEvolution.name).then((res)=> res.data.sprites.front_default);
-        const evolutionsObj = {
-            firstEvolution: {
-                name: firstEvolution.name,
-                img: firstEvolutionImg,
+        const evolutionsObj = [
+            {
+            name: firstEvolution.name,
+            img: firstEvolutionImg,
             },
-            secondEvolution: {
-                name: secondEvolution.name,
-                img: secondEvolutionImg,
+            {
+            name: secondEvolution.name,
+            img: secondEvolutionImg,
             },
-        };
+        ];
+        setTimeout(()=> {
+            [evolutionsObj].map((evol)=> console.log(evol))
+        }, 2000)
         setPokeData(evolutionsObj);
     }, [data.id]);
+
 
     useEffect(()=> {
         evolutions();
@@ -86,20 +91,19 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
         </ModalBody>
         <ModalFooter className="d-flex">
             <h4 className="d-flex justify-content-flex-start">Evolutions</h4>
+                {pokeData?.map((evolution) => {
+                    if(evolution.name === data.name) return;
+                    return(
+                        <div className="flex-direction-column-reverse">
+                        <span>{evolution.name}</span>
+                        <img src={evolution.img} alt={evolution.name}/>
+                        </div>
+                    )
+                })}
             <div>
-                {data.name !== pokeData?.firstEvolution?.name && (
-                <>
-                <span>{pokeData?.firstEvolution?.name}</span>
-                <img src={pokeData?.firstEvolution?.img} alt={pokeData?.firstEvolution?.name} />
-                </>)}
-            </div>
-            <div>
-                {data.name !== pokeData?.secondEvolution?.name && (
-                    <>
-                        <span>{pokeData?.secondEvolution?.name}</span>
-                        <img src={pokeData?.secondEvolution?.img} alt={pokeData?.secondEvolution?.name}/>
-                    </>
-                )}
+                {/* {data.name !== pokeData?.secondEvolution?.name && (
+                    
+                )} */}
             </div>
         </ModalFooter>
     </Modal>
