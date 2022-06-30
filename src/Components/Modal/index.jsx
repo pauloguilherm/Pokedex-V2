@@ -49,6 +49,9 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
         }
     };
 
+    const handleValidateEvolution = (dataID, evolutionID) => {
+        return evolutionID * 3 === dataID;
+    };
     const evolutions = useCallback(async() =>{
         let evolutions = await getEvolutions(data.id);
         let firstEvolution = evolutions.data.chain.evolves_to[0].species;
@@ -59,22 +62,23 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
             {
             name: firstEvolution.name,
             img: firstEvolutionImg,
+            notVisible: handleValidateEvolution(data.id, evolutions.data.id)
             },
             {
             name: secondEvolution.name,
             img: secondEvolutionImg,
             },
         ];
-        setTimeout(()=> {
-            [evolutionsObj].map((evol)=> console.log(evol))
-        }, 2000)
         setPokeData(evolutionsObj);
     }, [data.id]);
 
 
     useEffect(()=> {
         evolutions();
-    }, [data, evolutions]);
+    }, [data.id, evolutions]);
+    useEffect(()=> {
+        console.log(pokeData);
+    }, [pokeData])
     return(
     <Modal isOpen={isOpen} toggle={() => setIsOpen(!isOpen)}>
         <ModalHeader>
@@ -90,9 +94,9 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
             </div>
         </ModalBody>
         <ModalFooter className="d-flex">
-            <h4 className="d-flex justify-content-flex-start">Evolutions</h4>
+            {!pokeData[0]?.notVisible && <h4 className="d-flex justify-content-flex-start">Evolutions</h4>}
                 {pokeData?.map((evolution) => {
-                    if(evolution.name === data.name) return;
+                    if(evolution.name === data.name || evolution.notVisible) return;
                     return(
                         <div className="flex-direction-column-reverse">
                         <span>{evolution.name}</span>
@@ -101,9 +105,6 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
                     )
                 })}
             <div>
-                {/* {data.name !== pokeData?.secondEvolution?.name && (
-                    
-                )} */}
             </div>
         </ModalFooter>
     </Modal>
