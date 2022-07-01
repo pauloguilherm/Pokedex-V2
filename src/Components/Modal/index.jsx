@@ -76,9 +76,6 @@ const GenericModal = ({isOpen, setIsOpen, data}) => {
     useEffect(()=> {
         evolutions();
     }, [data.id, evolutions]);
-    useEffect(()=> {
-        console.log(pokeData);
-    }, [pokeData])
     return(
     <Modal isOpen={isOpen} toggle={() => setIsOpen(!isOpen)}>
         <ModalHeader>

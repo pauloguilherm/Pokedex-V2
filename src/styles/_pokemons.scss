@@ -1,7 +1,11 @@
 .buttonMore {
     padding: 30px;
 }
- 
+.container-pokemon-only{
+    display: grid;
+    grid-template-columns: 1fr !important;
+};
+
 .container-pokemon{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

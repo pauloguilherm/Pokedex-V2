@@ -1,6 +1,5 @@
 import Pokemons from '../Pokemons';
-import {useState, useEffect, useCallback} from 'react';
-import {useContext} from 'react';
+import {useState, useEffect, useCallback, useContext} from 'react';
 import {AppContext} from '../Container';
 import {Button} from 'reactstrap';
 import {BiArrowToBottom} from 'react-icons/bi';
@@ -13,9 +12,7 @@ const Home = () => {
 
      const loadData = useCallback(async() => {
         setLoading(true);
-        await getData(limitPokemons).then(res => {
-            setData(res.data.results);
-        });
+        await getData(limitPokemons).then(res => setData(res.data.results));
         setLoading(false);
       },[limitPokemons]);
 

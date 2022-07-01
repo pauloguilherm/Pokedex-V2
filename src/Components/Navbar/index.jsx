@@ -1,17 +1,37 @@
 import {Nav, NavItem, Input, Button, Form} from "reactstrap";
+import {useRef, useContext} from 'react';
 import {AppContext} from '../Container';
-import {useContext, useRef} from 'react';
 import {FaSearch} from 'react-icons/fa';
+import {toast} from 'react-toastify';
+import {getAllPokes} from '../../Hooks/api';
+import {getType, getStatistcs} from '../../Hooks/customizes'
 
 const NavBar = () => {
-    const {setSearch} = useContext(AppContext);
     const formRef = useRef(null);
-
-    const handleSubmitForm = (payload) => {
+    const {setSearch} = useContext(AppContext)
+  
+    const handleSubmitForm = async(payload) => {
       payload.preventDefault();
-      setSearch(payload.target[0].value);
-      payload.target[0].value = "";
+      const pokeName = payload.target[0].value;
+      const data = await getAllPokes(pokeName)
+      .then(res => res)
+      .catch(err => err);
+      if(data.name === "AxiosError"){
+        toast.error('Pokemon not found');
+        setSearch({error: true});
+        return
     };
+      const newObj =
+        {
+        id: data.data.id,
+        name: data.data.name,
+        img: data.data.sprites.other.dream_world.front_default,
+        statistcs: getStatistcs(data.data.stats),
+        types: getType(data.data),
+        search: true
+    };
+    setSearch(newObj)
+  };
 
   return (
       <Nav>
