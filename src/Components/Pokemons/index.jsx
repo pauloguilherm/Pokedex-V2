@@ -9,18 +9,12 @@ import Modal from '../Modal';
 import {getStatistcs, getType, getTypeColor} from '../../Hooks/customizes';
 
 export default function Pokemons({data, loadData}){
-    const {search} = useContext(AppContext);
+    const {search, setSearch} = useContext(AppContext);
     const [pokemons, setPokemons] = useState([]);
     const [openModal, setOpenModal] = useState();
     useEffect(()=> {
-        if(search?.search) {
-            setPokemons([search])
-        }
+        if(search?.search) setPokemons([search]);
     }, [search])
-
-    useEffect(()=> {
-        console.log(pokemons)
-    }, [pokemons, setPokemons])
 
     const getAll = useCallback(() =>{
         const pokeObj = []
@@ -46,7 +40,7 @@ export default function Pokemons({data, loadData}){
         <div className={search?.search ? 'container-pokemon-only container-pokemon' : 'container-pokemon'}>
             {pokemons?.map((item) => (
                 <>
-                {search?.search && <Button className="d-flex justify-content-start " color="link" onClick={loadData}><AiOutlineArrowLeft size="50"/></Button>}
+                {search?.search && <Button className="d-flex justify-content-start " color="link" onClick={()=> {loadData(); setSearch(false);}}><AiOutlineArrowLeft size="50"/></Button>}
                 <Card key={item?.id}>
                     {item?.id === openModal && <Modal isOpen={item?.id === openModal} setIsOpen={setOpenModal} data={item} />}
                     <CardHeader style={{ backgroundColor: getTypeColor(item.types) }}>
