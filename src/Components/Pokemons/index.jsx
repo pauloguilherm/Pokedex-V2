@@ -12,6 +12,7 @@ export default function Pokemons({data, loadData}){
     const {search, setSearch} = useContext(AppContext);
     const [pokemons, setPokemons] = useState([]);
     const [openModal, setOpenModal] = useState();
+
     useEffect(()=> {
         if(search?.search) setPokemons([search]);
     }, [search])
@@ -38,20 +39,20 @@ export default function Pokemons({data, loadData}){
 
     return(
         <div className={search?.search ? 'container-pokemon-only container-pokemon' : 'container-pokemon'}>
-            {pokemons?.map((item) => (
-                <>
+            {pokemons?.map((pokemon) => (
+                <div key={pokemon.name}>
                 {search?.search && <Button className="d-flex justify-content-start " color="link" onClick={()=> {loadData(); setSearch(false);}}><AiOutlineArrowLeft size="50"/></Button>}
-                <Card key={item?.id}>
-                    {item?.id === openModal && <Modal isOpen={item?.id === openModal} setIsOpen={setOpenModal} data={item} />}
-                    <CardHeader style={{ backgroundColor: getTypeColor(item.types) }}>
-                        <CardImg src={item?.img} alt={item?.name} />
+                <Card>
+                    {pokemon?.id === openModal && <Modal isOpen={pokemon?.id === openModal} setIsOpen={setOpenModal} data={pokemon} />}
+                    <CardHeader style={{ backgroundColor: getTypeColor(pokemon?.types) }}>
+                        <CardImg src={pokemon?.img} alt={pokemon?.name} />
                     </CardHeader>
                     <CardBody className={!search?.search ? 'card-search' : ''}>
-                        <CardTitle>{item?.name} - 00{item?.id}</CardTitle>
-                        <Button color="primary" onClick={() => setOpenModal(item?.id)}>Infos</Button>
+                        <CardTitle>{pokemon?.name} - 00{pokemon?.id}</CardTitle>
+                        <Button color="primary" onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
                     </CardBody>
                 </Card>
-                </>
+                </div>
             ))}
         </div>
     )

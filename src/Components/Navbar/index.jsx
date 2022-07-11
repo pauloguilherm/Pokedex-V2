@@ -12,23 +12,22 @@ const NavBar = () => {
   
     const handleSubmitForm = async(payload) => {
       payload.preventDefault();
-      const pokeName = payload.target[0].value;
+      const pokeName = payload.target[0].value.toLowerCase();
       const data = await getAllPokes(pokeName)
-      .then(res => res)
+      .then(res => res.data)
       .catch(err => err);
       if(data.name === "AxiosError"){
         toast.error('Pokemon not found');
-        setSearch({error: true});
-        return
+        return setSearch({error: true}); 
     };
       const newObj =
         {
-        id: data.data.id,
-        name: data.data.name,
-        img: data.data.sprites.other.dream_world.front_default,
-        statistcs: getStatistcs(data.data.stats),
-        types: getType(data.data),
-        search: true
+        id: data.id,
+        name: data.name,
+        img: data.sprites.other.dream_world.front_default,
+        statistcs: getStatistcs(data.stats),
+        types: getType(data),
+        search: true,
     };
     setSearch(newObj)
   };
