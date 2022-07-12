@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {AiOutlineArrowLeft} from 'react-icons/ai';
 
 
-import {getAllPokes} from '@Hooks/api';
 import {AppContext} from '@Components/Container';
-import Modal from '@Components/Modal';
+import {Modal} from '@Components';
+import {getAllPokes} from '@Hooks/api';
 import {getStatistcs, getType, getTypeColor} from '@Hooks/customizes';
 
 export default function Pokemons({data, loadData}){

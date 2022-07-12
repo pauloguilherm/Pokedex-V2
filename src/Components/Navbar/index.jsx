@@ -6,7 +6,7 @@ import {toast} from 'react-toastify';
 
 import {getAllPokes} from '@Hooks/api';
 import {getType, getStatistcs} from '@Hooks/customizes'
-import {AppContext} from '../Container';
+import {AppContext} from '@Components/Container';
 
 const NavBar = () => {
     const formRef = useRef(null);

@@ -1,5 +1,5 @@
 import {Modal, ModalHeader, ModalBody, ModalFooter, Badge} from 'reactstrap';
-import React, {useState, memo, useCallback, useEffect} from 'react';
+import React, {useState, memo, useEffect} from 'react';
 import {PropTypes} from 'prop-types';
 
 
@@ -9,10 +9,9 @@ import {getTypeColor} from '@Hooks/customizes';
 function GenericModal ({isOpen, setIsOpen, data}) {
     const [pokeData, setPokeData] = useState([]);
 
-    const handleValidateEvolution = (dataID, evolutionID) => {
-        return evolutionID * 3 === dataID;
-    };
-    const evolutions = useCallback(async() =>{
+    const handleValidateEvolution = (dataID, evolutionID) => evolutionID * 3 === dataID;
+
+    const evolutions = async() =>{
         let evolutions = await getEvolutions(data.id);
         let firstEvolution = evolutions.data.chain.evolves_to[0].species;
         let firstEvolutionImg = await getAllPokes(firstEvolution.name).then((res)=> res.data.sprites.front_default);
@@ -30,12 +29,12 @@ function GenericModal ({isOpen, setIsOpen, data}) {
             },
         ];
         setPokeData(evolutionsObj);
-    }, [data.id]);
+    };
 
 
     useEffect(()=> {
         evolutions();
-    }, [data.id, evolutions]);
+    }, [data.id]);
     return(
     <Modal isOpen={isOpen} toggle={() => setIsOpen(!isOpen)}>
         <ModalHeader>

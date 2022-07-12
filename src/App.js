@@ -1,4 +1,4 @@
-import Routes from '@Components/routes';
+import {Routes} from '@Components';
 import {AppProvider} from '@Components/Container';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
