@@ -1,10 +1,12 @@
-import {Nav, NavItem, Input, Button, Form} from "reactstrap";
 import {useRef, useContext} from 'react';
-import {AppContext} from '../Container';
+import {Nav, NavItem, Input, Button, Form} from "reactstrap";
 import {FaSearch} from 'react-icons/fa';
 import {toast} from 'react-toastify';
-import {getAllPokes} from '../../Hooks/api';
-import {getType, getStatistcs} from '../../Hooks/customizes'
+
+
+import {getAllPokes} from '@Hooks/api';
+import {getType, getStatistcs} from '@Hooks/customizes'
+import {AppContext} from '../Container';
 
 const NavBar = () => {
     const formRef = useRef(null);

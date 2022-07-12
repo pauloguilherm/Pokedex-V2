@@ -16,9 +16,9 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const ESLintPlugin = require('eslint-webpack-plugin');
-const paths = require('./paths');
-const modules = require('./modules');
-const getClientEnvironment = require('./env');
+const paths = require('./config/paths');
+const modules = require('./config/modules');
+const getClientEnvironment = require('./config/env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin =
   process.env.TSC_COMPILE_ON_ERROR === 'true'
@@ -26,7 +26,7 @@ const ForkTsCheckerWebpackPlugin =
     : require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
-const createEnvironmentHash = require('./webpack/persistentCache/createEnvironmentHash');
+const createEnvironmentHash = require('./config/webpack/persistentCache/createEnvironmentHash');
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -310,6 +310,8 @@ module.exports = function (webpackEnv) {
         .map(ext => `.${ext}`)
         .filter(ext => useTypeScript || !ext.includes('ts')),
       alias: {
+        '@Hooks': path.resolve(__dirname, './src/Hooks'),
+        '@Components': path.resolve(__dirname, './src/Components'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',

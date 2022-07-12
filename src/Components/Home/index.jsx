@@ -1,10 +1,13 @@
-import Pokemons from '../Pokemons';
 import {useState, useEffect, useCallback, useContext} from 'react';
-import {AppContext} from '../Container';
 import {Button} from 'reactstrap';
 import {BiArrowToBottom} from 'react-icons/bi';
 import {AiOutlineLoading3Quarters} from 'react-icons/ai';
-import {getData} from '../../Hooks/api';
+
+
+import {getData} from '@Hooks/api';
+import Pokemons from '../Pokemons';
+import {AppContext} from '../Container';
+
 const Home = () => {
     const [data, setData] = useState([]);
     const {search, limitPokemons, setLimitPokemons} = useContext(AppContext);

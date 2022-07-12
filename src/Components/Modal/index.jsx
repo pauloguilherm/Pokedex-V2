@@ -1,10 +1,12 @@
 import {Modal, ModalHeader, ModalBody, ModalFooter, Badge} from 'reactstrap';
-import {getEvolutions, getAllPokes} from '../../Hooks/api';
 import React, {useState, memo, useCallback, useEffect} from 'react';
-import {getTypeColor} from '../../Hooks/customizes';
 import {PropTypes} from 'prop-types';
 
-const GenericModal = ({isOpen, setIsOpen, data}) => {
+
+import {getEvolutions, getAllPokes} from '@Hooks/api';
+import {getTypeColor} from '@Hooks/customizes';
+
+function GenericModal ({isOpen, setIsOpen, data}) {
     const [pokeData, setPokeData] = useState([]);
 
     const handleValidateEvolution = (dataID, evolutionID) => {

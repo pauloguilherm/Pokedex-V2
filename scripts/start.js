@@ -20,16 +20,11 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const clearConsole = require('react-dev-utils/clearConsole');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
-const {
-  choosePort,
-  createCompiler,
-  prepareProxy,
-  prepareUrls,
-} = require('react-dev-utils/WebpackDevServerUtils');
+const {choosePort, createCompiler, prepareProxy, prepareUrls} = require('react-dev-utils/WebpackDevServerUtils');
 const openBrowser = require('react-dev-utils/openBrowser');
 const semver = require('semver');
 const paths = require('../config/paths');
-const configFactory = require('../config/webpack.config');
+const configFactory = require('../webpack.config');
 const createDevServerConfig = require('../config/webpackDevServer.config');
 const getClientEnvironment = require('../config/env');
 const react = require(require.resolve('react', { paths: [paths.appPath] }));

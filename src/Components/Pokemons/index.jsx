@@ -1,12 +1,13 @@
-import {useState, useEffect, useCallback} from 'react';
-import PropTypes from 'prop-types';
+import {useState, useEffect, useCallback, useContext} from 'react';
 import {Card, CardHeader, CardBody, CardImg, CardTitle, Button} from 'reactstrap';
+import PropTypes from 'prop-types';
 import {AiOutlineArrowLeft} from 'react-icons/ai';
-import {getAllPokes} from '../../Hooks/api';
-import {AppContext} from '../Container';
-import {useContext} from 'react';
-import Modal from '../Modal';
-import {getStatistcs, getType, getTypeColor} from '../../Hooks/customizes';
+
+
+import {getAllPokes} from '@Hooks/api';
+import {AppContext} from '@Components/Container';
+import Modal from '@Components/Modal';
+import {getStatistcs, getType, getTypeColor} from '@Hooks/customizes';
 
 export default function Pokemons({data, loadData}){
     const {search, setSearch} = useContext(AppContext);
