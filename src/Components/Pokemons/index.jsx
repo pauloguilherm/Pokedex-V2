@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback, useContext} from 'react';
-import {Card, CardHeader, CardBody, CardImg, CardTitle, Button} from 'reactstrap';
+import {Card, CardHeader, CardBody, CardImg, CardTitle, Button, Badge} from 'reactstrap';
 import PropTypes from 'prop-types';
 import {AiOutlineArrowLeft} from 'react-icons/ai';
 
@@ -7,7 +7,7 @@ import {AiOutlineArrowLeft} from 'react-icons/ai';
 import {AppContext} from '@Components/Container';
 import {Modal} from '@Components';
 import {getAllPokes} from '@Hooks/api';
-import {getStatistcs, getType, getTypeColor} from '@Hooks/customizes';
+import {getStatistcs, getType, getTypeColor} from '@Utils/customizes';
 
 export default function Pokemons({data, loadData}){
     const {search, setSearch} = useContext(AppContext);
@@ -48,9 +48,14 @@ export default function Pokemons({data, loadData}){
                     <CardHeader style={{ backgroundColor: getTypeColor(pokemon?.types) }}>
                         <CardImg src={pokemon?.img} alt={pokemon?.name} />
                     </CardHeader>
-                    <CardBody className={!search?.search ? 'card-search' : ''}>
-                        <CardTitle>{pokemon?.name} - 00{pokemon?.id}</CardTitle>
-                        <Button color="primary" onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
+                    <CardBody className={!search?.search ? 'card-search d-flex flex-row justify-content-between' : ''}>
+                        <div className="d-flex flex-column justify-content-center">
+                            <CardTitle>{pokemon?.name} - 00{pokemon?.id}</CardTitle>
+                            <Button color="primary" onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
+                        </div>
+                        <div>
+                            {pokemon.types.map((type) => <Badge key={type} color="link" style={{color: 'black', backgroundColor: getTypeColor(pokemon?.types)}}>{type}</Badge>)}
+                        </div>
                     </CardBody>
                 </Card>
                 </div>

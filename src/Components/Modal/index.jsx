@@ -1,10 +1,10 @@
-import {Modal, ModalHeader, ModalBody, ModalFooter, Badge} from 'reactstrap';
+import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import React, {useState, memo, useEffect} from 'react';
 import {PropTypes} from 'prop-types';
+import {MdClose} from 'react-icons/md';
 
 
 import {getEvolutions, getAllPokes} from '@Hooks/api';
-import {getTypeColor} from '@Hooks/customizes';
 
 function GenericModal ({isOpen, setIsOpen, data}) {
     const [pokeData, setPokeData] = useState([]);
@@ -36,10 +36,10 @@ function GenericModal ({isOpen, setIsOpen, data}) {
         evolutions();
     }, [data.id]);
     return(
-    <Modal isOpen={isOpen} toggle={() => setIsOpen(!isOpen)}>
+    <Modal isOpen={isOpen} toggle={() => setIsOpen(prev => !prev)}>
         <ModalHeader>
             <span>{data?.name}</span>
-            <span>{data.types.map((type) => <Badge key={type} color={getTypeColor(type)}>{type}</Badge>)}</span>
+            <Button color="link" onClick={()=> setIsOpen(prev => !prev)}><MdClose/></Button>
         </ModalHeader>
         <ModalBody className="d-flex justify-content-center">
             <img src={data?.img} alt={data.name}/>

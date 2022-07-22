@@ -1,12 +1,14 @@
 import {useRef, useContext} from 'react';
 import {Nav, NavItem, Input, Button, Form} from "reactstrap";
+import {Link} from 'react-router-dom';
 import {FaSearch} from 'react-icons/fa';
 import {toast} from 'react-toastify';
 
 
 import {getAllPokes} from '@Hooks/api';
-import {getType, getStatistcs} from '@Hooks/customizes'
+import {getType, getStatistcs} from '@Utils/customizes'
 import {AppContext} from '@Components/Container';
+import PokeBag from '@Assets/pokebag.png';
 
 const NavBar = () => {
     const formRef = useRef(null);
@@ -44,7 +46,9 @@ const NavBar = () => {
                   <Button type="submit" color="link"><FaSearch /></Button>
                 </Form>
               </NavItem>
-              <NavItem>POKEBAG</NavItem>
+              <NavItem>
+                <Link to="/favorites"><img className="pokeBag" src={PokeBag} alt="Pokebag"/></Link>
+              </NavItem>
           </div>
       </Nav>
     );
