@@ -1,10 +1,11 @@
 import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
 import React, {useState, memo, useEffect} from 'react';
 import {PropTypes} from 'prop-types';
-import {MdClose} from 'react-icons/md';
+import {CgCloseO} from 'react-icons/cg';
 
 
 import {getEvolutions, getAllPokes} from '@Hooks/api';
+import {getTypeColor} from '@Utils/customizes';
 
 function GenericModal ({isOpen, setIsOpen, data}) {
     const [pokeData, setPokeData] = useState([]);
@@ -21,7 +22,7 @@ function GenericModal ({isOpen, setIsOpen, data}) {
             {
             name: firstEvolution.name,
             img: firstEvolutionImg,
-            notVisible: handleValidateEvolution(data.id, evolutions.data.id)
+            visible: handleValidateEvolution(data.id, evolutions.data.id)
             },
             {
             name: secondEvolution.name,
@@ -37,25 +38,25 @@ function GenericModal ({isOpen, setIsOpen, data}) {
     }, [data.id]);
     return(
     <Modal isOpen={isOpen} toggle={() => setIsOpen(prev => !prev)}>
-        <ModalHeader>
-            <span>{data?.name}</span>
-            <Button color="link" onClick={()=> setIsOpen(prev => !prev)}><MdClose/></Button>
+        <ModalHeader style={{backgroundColor: getTypeColor(data?.types) }}>
+            <strong>{data?.name.toUpperCase()}</strong>
+            <Button color="black" onClick={()=> setIsOpen(prev => !prev)}><CgCloseO/></Button>
         </ModalHeader>
         <ModalBody className="d-flex justify-content-center">
             <img src={data?.img} alt={data.name}/>
             <div className="container-status">
                 {data?.statistcs?.map((stat, key)=> (
-                    <span key={key}> {stat.name.toUpperCase()} : {stat.status} </span>
+                    <strong key={key}> {stat.name.toUpperCase()} : {stat.status} </strong>
                 ))}
             </div>
         </ModalBody>
         <ModalFooter className="d-flex">
-            {!pokeData[0]?.notVisible && <h4 className="d-flex justify-content-flex-start">Evolutions</h4>}
+            {!pokeData[0]?.visible && <h4 className="d-flex justify-content-flex-start">Evolutions</h4>}
                 {pokeData?.map((evolution) => {
-                    if(evolution.name === data.name || evolution.notVisible) return;
+                    if(evolution.name === data.name || evolution.visible) return;
                     return(
-                        <div className="flex-direction-column-reverse">
-                        <span>{evolution.name}</span>
+                        <div className="d-flex flex-direction-column-reverse">
+                        <strong>{evolution.name}</strong>
                         <img src={evolution.img} alt={evolution.name}/>
                         </div>
                     )

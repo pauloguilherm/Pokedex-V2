@@ -15,29 +15,29 @@ export const getType = (data) => {
 export const getTypeColor = (types) => {
     switch(types[0]) {
         case 'normal':
-            return '#0174C5';
+            return '#0674c1ba';
         case 'fighting':
-            return '#FFD1D1';
+            return '#661212d4';
         case 'flying':
-            return '#B5E1F7';
+            return '#4ca129bf';
         case 'poison':
-            return '#EEDD82';
+            return '#7539a3ad';
         case 'ground':
-            return '#D3D3D3';
+            return '#726969';
         case 'rock':
             return '#A9A9A9';
         case 'bug':
-            return '#DEFFDE';
+            return '#4ca129bf';
         case 'ghost':
             return '#D1E4FF';
         case 'steel':
             return '#D3D3D3';
         case 'fire':
-            return '#FFD1D1';
+            return '#b10e0ec7';
         case 'water':
-            return '#6a9fc5';
+            return '#54e7e0';
         case 'grass':
-            return '#DEFFDE';
+            return '#4ba526d6';
         case 'electric':
             return '#EEDD82';
         case 'psychic':
@@ -49,7 +49,7 @@ export const getTypeColor = (types) => {
         case 'dark':
             return '#3a3a3a';
         case 'fairy':
-            return '#EEDD82';
+            return '#c16fa4';
         default:
             return '#D3D3D3';
     }

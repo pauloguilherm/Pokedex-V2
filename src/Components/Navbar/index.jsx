@@ -37,17 +37,16 @@ const NavBar = () => {
   };
 
   return (
-      <Nav>
-          <NavItem>MENU</NavItem>
+      <Nav className="navbar-dark bg-dark fixed-top">
+          <NavItem className="pokeBag-container">
+              <Link to="/favorites"><img className="pokeBag" src={PokeBag} alt="Pokebag"/></Link>
+          </NavItem>
           <div className="nav-container-right">
               <NavItem>
                 <Form onSubmit={handleSubmitForm} ref={formRef}>
                   <Input type="text" name="search" placeholder="Search..." />
-                  <Button type="submit" color="link"><FaSearch /></Button>
+                  <Button type="submit" color="link"><FaSearch style={{color: 'white'}}/></Button>
                 </Form>
-              </NavItem>
-              <NavItem>
-                <Link to="/favorites"><img className="pokeBag" src={PokeBag} alt="Pokebag"/></Link>
               </NavItem>
           </div>
       </Nav>

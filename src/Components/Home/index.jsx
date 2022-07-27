@@ -1,7 +1,7 @@
 import {useState, useEffect, useCallback, useContext} from 'react';
 import {Button} from 'reactstrap';
-import {BiArrowToBottom} from 'react-icons/bi';
-import {AiOutlineLoading3Quarters} from 'react-icons/ai';
+import Loading from '@Components/Loading';
+import {RiArrowDownFill} from 'react-icons/ri';
 
 
 import {getData} from '@Hooks/api';
@@ -29,7 +29,7 @@ const Home = () => {
           {!search && 
           <div className="d-flex justify-content-center">
             <Button title="load more" color="link buttonMore" onClick={()=> setLimitPokemons(limit => limit + 10)}>
-            {loading ? <AiOutlineLoading3Quarters size="50"/> : <BiArrowToBottom size="50" />}
+            {loading ? <Loading /> : <RiArrowDownFill size="50" />}
           </Button>
           </div>}
         </>

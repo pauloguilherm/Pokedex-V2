@@ -4,12 +4,14 @@
 .container-pokemon-only{
     display: grid;
     grid-template-columns: 1fr !important;
+    margin-top: 60px;
 };
 
 .container-pokemon{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     margin-left: 37px;
+    margin-top: 60px;
     font-family: 'Open Sans', sans-serif;
 
     .card{

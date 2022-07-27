@@ -42,20 +42,20 @@ export default function Pokemons({data, loadData}){
         <div className={search?.search ? 'container-pokemon-only container-pokemon' : 'container-pokemon'}>
             {pokemons?.map((pokemon) => (
                 <div key={pokemon.name}>
-                {search?.search && <Button className="d-flex justify-content-start " color="link" onClick={()=> {loadData(); setSearch(false);}}><AiOutlineArrowLeft size="50"/></Button>}
+                {search?.search && <Button style={{marginLeft: '20px'}} className="d-flex justify-content-start " color="link" onClick={()=> {loadData(); setSearch(false);}}><AiOutlineArrowLeft size="50"/></Button>}
                 <Card>
                     {pokemon?.id === openModal && <Modal isOpen={pokemon?.id === openModal} setIsOpen={setOpenModal} data={pokemon} />}
                     <CardHeader style={{ backgroundColor: getTypeColor(pokemon?.types) }}>
                         <CardImg src={pokemon?.img} alt={pokemon?.name} />
                     </CardHeader>
                     <CardBody className={!search?.search ? 'card-search d-flex flex-row justify-content-between' : ''}>
-                        <div className="d-flex flex-column justify-content-center">
+                        <div className="d-flex justify-content-center">
                             <CardTitle>{pokemon?.name} - 00{pokemon?.id}</CardTitle>
-                            <Button color="primary" onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
+                            {pokemon.types.map((type) => <Badge key={type} color="link" style={{color: 'white', backgroundColor: getTypeColor(pokemon?.types)}}>{type}</Badge>)}
                         </div>
-                        <div>
-                            {pokemon.types.map((type) => <Badge key={type} color="link" style={{color: 'black', backgroundColor: getTypeColor(pokemon?.types)}}>{type}</Badge>)}
-                        </div>
+                        <>
+                            <Button style={{backgroundColor: getTypeColor(pokemon?.types)}} onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
+                        </>
                     </CardBody>
                 </Card>
                 </div>
