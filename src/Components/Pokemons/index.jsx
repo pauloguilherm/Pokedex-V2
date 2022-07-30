@@ -1,7 +1,7 @@
 import {useState, useEffect, useCallback, useContext} from 'react';
 import {Card, CardHeader, CardBody, CardImg, CardTitle, Button, Badge} from 'reactstrap';
-import PropTypes from 'prop-types';
 import {AiOutlineArrowLeft} from 'react-icons/ai';
+import PropTypes from 'prop-types';
 
 
 import {AppContext} from '@Components/Container';
@@ -66,4 +66,5 @@ export default function Pokemons({data, loadData}){
 
 Pokemons.propTypes = {
     data: PropTypes.array.isRequired,
+    loadData: PropTypes.func,
 };

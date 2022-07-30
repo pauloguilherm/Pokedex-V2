@@ -481,4 +481,11 @@ template {
 }
 .btn {
   border: none;
+}
+
+.container-user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }/*# sourceMappingURL=index.css.map */

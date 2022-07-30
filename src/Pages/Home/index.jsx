@@ -5,8 +5,8 @@ import {RiArrowDownFill} from 'react-icons/ri';
 
 
 import {getData} from '@Hooks/api';
-import Pokemons from '../Pokemons';
-import {AppContext} from '../Container';
+import {AppContext} from '@Components/Container';
+import Pokemons from '@Components/Pokemons';
 
 const Home = () => {
     const [data, setData] = useState([]);

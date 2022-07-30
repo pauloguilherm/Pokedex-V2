@@ -314,6 +314,7 @@ module.exports = function (webpackEnv) {
         '@Components': path.resolve(__dirname, './src/Components'),
         '@Assets': path.resolve(__dirname, './src/Assets'),
         '@Utils': path.resolve(__dirname, './src/Utils'),
+        '@Pages': path.resolve(__dirname, './src/Pages'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
