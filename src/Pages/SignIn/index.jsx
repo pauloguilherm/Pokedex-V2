@@ -12,7 +12,7 @@ import {AppContext} from '@Components/Container';
 
 export default function SignIn () {
     const [loading, setLoading] = useState(false);
-    const {setToken} = useContext(AppContext);
+    const {setToken, setUserData} = useContext(AppContext);
     const navigate = useNavigate();
     const handleSubmitForm = useCallback(async(payload) => {
         setLoading(true);
@@ -22,6 +22,7 @@ export default function SignIn () {
             return toast.error(data.message);
         };
         setToken(data.token);
+        setUserData(data.user);
         navigate("/");
         return toast.success(data.message);
     }, []);
