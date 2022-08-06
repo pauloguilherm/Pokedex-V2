@@ -2,10 +2,12 @@ import {useRef, useContext} from 'react';
 import {Nav, NavItem, Input, Button, Form} from "reactstrap";
 import {Link} from 'react-router-dom';
 import {FaSearch} from 'react-icons/fa';
+import {BsArrowRightCircle} from 'react-icons/bs';
 import {toast} from 'react-toastify';
 
 
 import {getAllPokes} from '@Hooks/api';
+import {logout} from '@Auth';
 import {getType, getStatistcs} from '@Utils/customizes'
 import {AppContext} from '@Components/Container';
 import PokeBag from '@Assets/pokebag.png';
@@ -48,6 +50,7 @@ const NavBar = () => {
                   <Button type="submit" color="link"><FaSearch style={{color: 'white'}}/></Button>
                 </Form>
               </NavItem>
+              <BsArrowRightCircle color="white" onClick={logout}/>
           </div>
       </Nav>
     );

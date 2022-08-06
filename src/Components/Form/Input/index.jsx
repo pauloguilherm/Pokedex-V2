@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, useState} from 'react';
 import { useField } from '@unform/core'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -31,6 +31,7 @@ export default function Input({label, name, ...rest}) {
       autoComplete="off"
     >
       <TextField inputRef={inputRef} defaultValue={defaultValue} label={label} name={name} variant="outlined" {...rest} />
+      {error && <span className="error">{error}</span>}
     </Box>
   );
 };

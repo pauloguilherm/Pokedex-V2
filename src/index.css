@@ -327,7 +327,7 @@ template {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 18%;
+  width: 23%;
 }
 .nav form {
   display: flex;
@@ -488,4 +488,13 @@ template {
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+.container-user form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.error {
+  color: red;
 }/*# sourceMappingURL=index.css.map */

@@ -1,7 +1,7 @@
 import axios from './configs';
 
 export const registerUser = async(user) => {
-    return await axios.post('/api/user/signUp', user)
+    return await axios.post('/user/signUp', user)
     .then(res => res)
     .catch(err => err);
 };
