@@ -9,21 +9,22 @@ import Loading from '@Components/Loading';
 import {Input} from '@Components/Form';
 import {login} from '@Hooks/user';
 import {AppContext} from '@Components/Container';
+import {saveUser} from '@Auth';
 
 export default function SignIn () {
     const [loading, setLoading] = useState(false);
-    const {setToken, setUserData} = useContext(AppContext);
+    const {setUserData} = useContext(AppContext);
     const navigate = useNavigate();
     const handleSubmitForm = useCallback(async(payload) => {
         setLoading(true);
         const {data} = await login(payload);
         setLoading(false);
-        if(!data.success){
-            return toast.error(data.message);
+        if(!data?.success){
+            return toast.error("Email or password incorrect");
         };
-        setToken(data.token);
+        saveUser(data);
         setUserData(data.user);
-        navigate("/");
+        navigate("/app");
         return toast.success(data.message);
     }, []);
 

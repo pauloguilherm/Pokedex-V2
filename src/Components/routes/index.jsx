@@ -9,9 +9,9 @@ const Rotas = () => (
     <BrowserRouter>
         <Navbar />
         <Routes>
-            <Route exact path="/" element={<Home />}/>
-             <Route exact path="/signIn" element={<SignIn />} />
-             <Route exact path="/signUp" element={<SignUp />} />
+            <Route exact path="/app" element={<Home />}/>
+             <Route exact path="Auth/signIn" element={<SignIn />} />
+             <Route exact path="Auth/signUp" element={<SignUp />} />
         </Routes>
     </BrowserRouter>
 );

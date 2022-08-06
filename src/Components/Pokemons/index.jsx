@@ -8,30 +8,17 @@ import {toast} from 'react-toastify';
 import {AppContext} from '@Components/Container';
 import {Modal} from '@Components';
 import {getAllPokes} from '@Hooks/api';
-import {catchPokemon, getFavorites} from '@Hooks/pokemons';
+import {catchPokemon, getFavorites, deleteFavorite} from '@Hooks/pokemons';
 import {getStatistcs, getType, getTypeColor} from '@Utils/customizes';
 
 import ClosedPokeBall from '@Assets/pokeBolaFechada.png';
 import OpenPokeBall from '@Assets/pokeBolaAberta.png';
 
 export default function Pokemons({data, loadData}){
-    const {search, setSearch, userData, token} = useContext(AppContext);
+    const {search, setSearch, userData} = useContext(AppContext);
     const [pokemons, setPokemons] = useState([]);
     const [openModal, setOpenModal] = useState();
     const [catchs, setCatchs] = useState([]);
-
-    useEffect(()=> {
-        if(search?.search) setPokemons([search]);
-    }, [search])
-
-    useEffect(()=> {
-        if(!userData.id) return;
-
-        (async () => {
-            const {data} = await getFavorites(userData.id, token);
-            setCatchs(data.map(pokemon => pokemon.name));
-        })();
-    }, [token]);
 
     const getAll = useCallback(() =>{
         const pokeObj = []
@@ -51,30 +38,49 @@ export default function Pokemons({data, loadData}){
         },200)
     },[data]);
 
+    useEffect(()=> {
+        if(search?.search) setPokemons([search]);
+    }, [search])
+
+    useEffect(()=> {
+        if(!userData.id) return;
+
+        (async () => {
+            const {data: {data}} = await getFavorites(userData.id);
+            setCatchs(data.map(pokemon => pokemon.name));
+        })();
+    }, [userData.id]);
+
     const savePokemon = useCallback(async(name)=> {
         const saveObj = {
-            id: userData.id,
             name: name,
+            coach: userData.name,
+            coachId: userData.id,
         };
 
-        const {data} = await catchPokemon(saveObj, token);
+        const {data} = await catchPokemon(saveObj);
         if(!data.success){
             return toast.error(data.message);
         };
+        setCatchs(prev => [...prev, name]);
         return toast.success(data.message);
         
-    }, []);
+    }, [userData]);
 
     const deletePokemon = useCallback(async (name)=> {
-
-    }, []);
-
-    const handlePokemon = useCallback(async(name) => {
-        if(catchs.includes(name)){
-
+        const saveObj = {
+            name: name,
+            coach: userData.name,
+            coachId: userData.id,
         };
-        await savePokemon(name);
-    }, []);
+        const {data} = await deleteFavorite(saveObj);
+        if(!data.success){
+            return toast.error(data.message);
+        };
+        
+        setCatchs(prev => prev.filter(pokemon => pokemon !== name));
+        return toast.success(data.message);
+    }, [userData]);
 
     useEffect(getAll, [getAll]);
 
@@ -92,7 +98,7 @@ export default function Pokemons({data, loadData}){
 
                     <CardBody className={!search?.search ? 'card-search d-flex flex-row justify-content-between' : ''}>
                         <div className="d-flex justify-content-center">
-                            <CardTitle><img src={catchs.includes(pokemon.name) ?  ClosedPokeBall : OpenPokeBall} onClick={()=> handlePokemon(pokemon.name)}/> - {pokemon?.name}</CardTitle>
+                            <CardTitle><img src={catchs.includes(pokemon.name) ?  ClosedPokeBall : OpenPokeBall} onClick={()=> catchs.includes(pokemon.name) ? deletePokemon(pokemon.name) : savePokemon(pokemon.name)}/> - {pokemon?.name}</CardTitle>
                             {pokemon.types.map((type) => <Badge key={type} color="link" style={{color: 'white', backgroundColor: getTypeColor(pokemon?.types)}}>{type}</Badge>)}
                         </div>
                         <Button color="primary" onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
