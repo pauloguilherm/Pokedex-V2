@@ -1,15 +1,13 @@
 export const getStatistcs = (stats) => {
-    const pokeStatistic = stats?.map((stat)=> (
+    return stats?.map((stat)=> (
         {name: stat?.stat?.name, status: stat?.base_stat }
     ));
-    return pokeStatistic;
 };
 
 export const getType = (data) => {
-    let type = data?.types?.map((pokeType)=> (
+    return data?.types?.map((pokeType)=> (
         pokeType.type.name
     ))
-    return type;
 };
 
 export const getTypeColor = (types) => {

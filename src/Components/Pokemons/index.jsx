@@ -22,7 +22,7 @@ export default function Pokemons({data, loadData}){
 
     const getAll = useCallback(() =>{
         const pokeObj = []
-        data?.map(async(poke, key) => {
+        data?.forEach(async(poke, key) => {
            const data = await getAllPokes(poke.name)
            pokeObj[key] = 
            {
@@ -97,9 +97,18 @@ export default function Pokemons({data, loadData}){
                     </CardHeader>
 
                     <CardBody className={!search?.search ? 'card-search d-flex flex-row justify-content-between' : ''}>
-                        <div className="d-flex justify-content-center">
-                            <CardTitle><img src={catchs.includes(pokemon.name) ?  ClosedPokeBall : OpenPokeBall} onClick={()=> catchs.includes(pokemon.name) ? deletePokemon(pokemon.name) : savePokemon(pokemon.name)}/> - {pokemon?.name}</CardTitle>
-                            {pokemon.types.map((type) => <Badge key={type} color="link" style={{color: 'white', backgroundColor: getTypeColor(pokemon?.types)}}>{type}</Badge>)}
+                        <div className="d-flex justify-content-center cursor-pointer">
+                            <CardTitle>
+                                <img 
+                                    src={catchs.includes(pokemon.name) ?  ClosedPokeBall : OpenPokeBall} 
+                                    onClick={()=> catchs.includes(pokemon.name) ? deletePokemon(pokemon.name) : savePokemon(pokemon.name)}
+                                    alt={pokemon.name}
+                                />
+                                 - {pokemon?.name}
+                            </CardTitle>
+                            <div className="d-flex align-items-center">
+                                {pokemon.types.map((type) => <Badge key={type} color="link" style={{color: 'white', backgroundColor: getTypeColor(pokemon?.types)}}>{type}</Badge>)}    
+                            </div>
                         </div>
                         <Button color="primary" onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
                     </CardBody>

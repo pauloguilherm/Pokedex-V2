@@ -10,7 +10,7 @@ import Pokemons from '@Components/Pokemons';
 
 const Home = () => {
     const [data, setData] = useState([]);
-    const {search, limitPokemons, setLimitPokemons, token} = useContext(AppContext);
+    const {search, limitPokemons, setLimitPokemons} = useContext(AppContext);
     const [loading, setLoading] = useState(false);
 
      const loadData = useCallback(async() => {

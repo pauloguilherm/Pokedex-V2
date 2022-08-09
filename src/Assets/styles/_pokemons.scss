@@ -7,6 +7,14 @@
     margin-top: 60px;
 };
 
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.sub-container-favorites{
+    padding: 40px;
+}
+
 .container-pokemon{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

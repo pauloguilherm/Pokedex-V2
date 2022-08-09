@@ -1,5 +1,5 @@
 import {useCallback, useRef, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import {Button} from 'reactstrap';
 import {toast} from 'react-toastify';
 import * as Yup from 'yup';
@@ -7,7 +7,7 @@ import {PropTypes} from 'prop-types';
 
 
 import {Form} from '@unform/web';
-import {Input} from '@Components/Form';
+import {CustomInput} from '@Components/Form';
 import {registerUser} from '@Hooks/user';
 import Loading from '@Components/Loading';
 
@@ -18,6 +18,7 @@ export default function SignUp () {
     const [loading, setLoading] = useState(false);
     const formRef = useRef(null);
     const navigate = useNavigate();
+
     const handleSubmitForm = useCallback(async(payload) => {
         setLoading(true);
         try{
@@ -39,16 +40,19 @@ export default function SignUp () {
         }finally{
             setLoading(false);
         }
-    }, [registerUser, schema]);
+    }, [registerUser, schema, navigate, setLoading]);
 
     return (
         <div className="container-user">
             <Form onSubmit={handleSubmitForm} ref={formRef}>
                 <h1>Register</h1>
-                <Input name="name" label="Usuario" type="text"/>
-                <Input name="email" label="Email" type="email"/>
-                <Input type="password" name="password" label="Password"/>
+                <CustomInput name="name" label="Usuario" type="text"/>
+                <CustomInput name="email" label="Email" type="email"/>
+                <CustomInput type="password" name="password" label="Password"/>
                 <Button color="primary">{loading ? <Loading /> : 'Submit'}</Button>
+                <div className="d-flex justify-content-end">
+                    <Link to="../app/Auth/signIn">Are you a member? logIn</Link>
+                </div>
             </Form>
         </div>
     )

@@ -1,7 +1,7 @@
-import React, {useState, useEffect}from 'react';
+import React, {useState, useEffect, createContext}from 'react';
 import PropTypes from 'prop-types';
 
-export const AppContext = React.createContext({})
+export const AppContext = createContext({})
 
 export function AppProvider (props) {
     const [search, setSearch] = useState();

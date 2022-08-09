@@ -12,12 +12,12 @@ function GenericModal ({isOpen, setIsOpen, data}) {
 
     const handleValidateEvolution = (dataID, evolutionID) => evolutionID * 3 === dataID;
 
-    const evolutions = async() =>{
-        let evolutions = await getEvolutions(data.id);
-        let firstEvolution = evolutions.data.chain.evolves_to[0].species;
-        let firstEvolutionImg = await getAllPokes(firstEvolution.name).then((res)=> res.data.sprites.front_default);
-        let secondEvolution = evolutions.data.chain.evolves_to[0].evolves_to[0].species;
-        let secondEvolutionImg = await getAllPokes(secondEvolution.name).then((res)=> res.data.sprites.front_default);
+    const evolutions = async () =>{
+        const evolutions = await getEvolutions(data.id);
+        const firstEvolution = evolutions.data.chain.evolves_to[0].species;
+        const firstEvolutionImg = await getAllPokes(firstEvolution.name).then((res)=> res.data.sprites.front_default);
+        const secondEvolution = evolutions.data.chain.evolves_to[0].evolves_to[0].species;
+        const secondEvolutionImg = await getAllPokes(secondEvolution.name).then((res)=> res.data.sprites.front_default);
         const evolutionsObj = [
             {
             name: firstEvolution.name,
@@ -35,7 +35,7 @@ function GenericModal ({isOpen, setIsOpen, data}) {
 
     useEffect(()=> {
         evolutions();
-    }, [data.id]);
+    }, [data]);
     return(
     <Modal isOpen={isOpen} toggle={() => setIsOpen(prev => !prev)}>
         <ModalHeader style={{backgroundColor: getTypeColor(data?.types) }}>

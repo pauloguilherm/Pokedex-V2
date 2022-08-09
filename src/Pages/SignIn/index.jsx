@@ -1,5 +1,5 @@
 import {useCallback, useState, useContext, useRef} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import {Button} from 'reactstrap';
 import {Form} from '@unform/web';
 import {toast} from 'react-toastify';
@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import {PropTypes} from 'prop-types';
 
 import Loading from '@Components/Loading';
-import {Input} from '@Components/Form';
+import {CustomInput} from '@Components/Form';
 import {login} from '@Hooks/user';
 import {AppContext} from '@Components/Container';
 import {saveUser} from '@Auth';
@@ -18,6 +18,7 @@ export default function SignIn () {
     const formRef = useRef(null);
     const {setUserData} = useContext(AppContext);
     const navigate = useNavigate();
+
     const handleSubmitForm = useCallback(async(payload) => {
         setLoading(true);
         try{
@@ -42,15 +43,18 @@ export default function SignIn () {
         }finally{
             setLoading(false);
         }
-    }, []);
+    }, [navigate, saveUser, setUserData]);
 
     return (
         <div className="container-user">
             <Form onSubmit={handleSubmitForm} ref={formRef}>
                 <h1>Login</h1>
-                <Input name="email" label="Email" type="email"/>
-                <Input type="password" name="password" label="Password"/>
-                <Button color="primary">{loading ? <Loading /> : 'Submit'}</Button>
+                <CustomInput name="email" label="Email" type="email"/>
+                <CustomInput type="password" name="password" label="Password"/>
+                <Button type="submit" color="primary">{loading ? <Loading /> : 'Submit'}</Button>
+                <div className="d-flex justify-content-end">
+                    <Link to="../app/Auth/signUp">Create account</Link>
+                </div>
             </Form>
         </div>
     )

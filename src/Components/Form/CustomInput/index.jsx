@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import {useRef, useEffect} from 'react';
-import {Label, Input} from 'reactstrap';
-import {useField} from '@unform/core';
+import { useField } from '@unform/core'
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
-export default function NormalizeInput({label, name, type, ...rest}) {
+export default function CustomInput({label, name, ...rest}) {
   const inputRef = useRef(null);
   const { fieldName, defaultValue, registerField, error } = useField(name)
   useEffect(() => {
@@ -23,20 +24,19 @@ export default function NormalizeInput({label, name, type, ...rest}) {
   }, [fieldName, registerField]);
 
   return (
-    <>
-      {label && <Label>{label}</Label>}
-      <Input type={type} innerRef={inputRef} name={fieldName} defaultValue={defaultValue} {...rest}/>
+    <Box
+      component="form"
+      sx={{'& > :not(style)': { m: 1, width: '25ch' }}}
+      noValidate
+      autoComplete="off"
+    >
+      <TextField inputRef={inputRef} defaultValue={defaultValue} label={label} name={name} variant="outlined" {...rest} />
       {error && <span className="error">{error}</span>}
-    </>
+    </Box>
   );
 };
 
-NormalizeInput.defaultProps = {
-    type: 'text',
-};
-
-NormalizeInput.propTypes = {
+CustomInput.propTypes = {
     label: PropTypes.string,
-    type: PropTypes.string,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
 }
