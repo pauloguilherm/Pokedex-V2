@@ -348,6 +348,10 @@ template {
   padding: 30px;
 }
 
+.arrow-back-to-home {
+  margin-left: 10%;
+}
+
 .container-pokemon-only {
   display: grid;
   grid-template-columns: 1fr !important;

@@ -88,7 +88,10 @@ export default function Pokemons({data, loadData}){
         <div className={search?.search ? 'container-pokemon-only container-pokemon' : 'container-pokemon'}>
             {pokemons?.map((pokemon) => (
                 <div key={pokemon.name}>
-                {search?.search && <Button style={{marginLeft: '20px'}} className="d-flex justify-content-start " color="link" onClick={()=> {loadData(); setSearch(false);}}><AiOutlineArrowLeft size="50"/></Button>}
+                {search?.search && 
+                    <Button style={{marginLeft: '20px'}} className="d-flex justify-content-start " color="link" onClick={()=> {loadData(); setSearch(false);}}>
+                        <AiOutlineArrowLeft size="50"/>
+                    </Button>}
                 <Card>
                     {pokemon?.id === openModal && <Modal isOpen={pokemon?.id === openModal} setIsOpen={setOpenModal} data={pokemon} />}
 
