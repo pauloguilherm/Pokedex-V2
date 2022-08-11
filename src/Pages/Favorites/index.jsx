@@ -1,34 +1,37 @@
 import {useEffect, useState, useContext, useCallback} from 'react';
-import {Card, CardTitle, CardBody, CardFooter, CardImg} from 'reactstrap';
 import {toast} from 'react-toastify';
+import {Button} from 'reactstrap';
 
 import {getAllPokes} from '@Hooks/api';
 import {getFavorites, deleteFavorite} from '@Hooks/pokemons';
 import {AppContext} from '@Components/Container';
 
 import ClosedPokeBall from '@Assets/pokeBolaFechada.png'
+import Pokedex from '@Assets/pokedex.png';
 
 export default function Favorites () {
     const [favorites, setFavorites] = useState([]);
     const {userData} = useContext(AppContext);
+ 
     useEffect(()=> {
+        if(!userData) return;
         (async ()=> {
             const favoritesToDisplay = [];   
             const {data: {data : favorites}} = await getFavorites(userData.id);
 
+            if(!favorites) return;
             favorites.forEach(async(favorite, index) => {
                 const {data} = await getAllPokes(favorite?.name);
                 
-                if(favoritesToDisplay.includes(favorite)) return; 
                 favoritesToDisplay[index] = { 
                     id: favorite?.id,
                     name: favorite?.name,  
                     img: data['sprites']['versions']['generation-v']['black-white']['animated']['front_default'], 
-                };
-        })
+                };  
+            })
         setTimeout(()=> {
-            setFavorites(prev => [...prev, ...favoritesToDisplay]);
-        }, 400);
+            setFavorites(favoritesToDisplay);
+        }, 500); 
         })();
     }, [userData]);
 
@@ -45,28 +48,20 @@ export default function Favorites () {
         
         setFavorites(prev => prev.filter(pokemon => pokemon.name !== name));
         return toast.success(data.message);
-    }, [userData]);
+    }, [userData, setFavorites]);
 
     return (
-        <div className="d-flex justify-content-center align-items-center flex-wrap" style={{height:'100vh'}}> 
-            {favorites?.map((favorite)=> (
-                <div className="sub-container-favorites">
-                    <Card classNmae="p-2 flex-fill bd-highlight">
+        <div className="d-flex justify-content-center align-items-center flex-wrap h-100"> 
+                {favorites?.map((favorite)=> (
+                    <div className="p-5 mt-5">
+                        <img src={favorite?.img} style={{marginTop: '70px', marginLeft: '49px', position: 'absolute', width: '65px'}}/>
 
-                        <CardTitle className="text-center">
-                            <strong>{favorite.name}</strong>
-                        </CardTitle>
-                        
-                        <CardBody style={{backgroundColor: '#72a6af9e'}}>
-                            <CardImg key={favorite?.id} alt={favorite?.name} src={favorite?.img} />
-                        </CardBody>
-
-                        <CardFooter className="d-flex justify-content-center">
-                            <img className="cursor-pointer" onClick={()=> deletePokemon(favorite.name)} src={ClosedPokeBall}/>
-                        </CardFooter>
-                    </Card> 
-                </div>
-            ))}
+                        <Button color="link" onClick={()=> deletePokemon(favorite?.name)} style={{marginTop: '180px', marginLeft: '49px', position: 'absolute', width: '65px'}}>
+                            <img src={ClosedPokeBall}/>
+                        </Button>
+                        <img src={Pokedex} style={{width: '180px'}}/>
+                    </div>
+                ))}
         </div>
-    )
+    );
 };

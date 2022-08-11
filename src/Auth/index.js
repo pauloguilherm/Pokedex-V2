@@ -11,7 +11,8 @@ export const isAuthenticated = () => {
 };
 
 export const RedirectToLogin = () => {
-    return  window.location.href = 'app/Auth/signIn';
+    const url = window.location.href.substring(window.location.href.indexOf('/app'), window.location.href.length)
+    console.log(url);
 };
 
 export const logout = () => {
