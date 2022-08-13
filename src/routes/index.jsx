@@ -1,11 +1,13 @@
-import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import Navbar from '@Components/Navbar';
 import Home from '@Pages/Home';
 import SignIn from '@Pages/SignIn';
 import SignUp from '@Pages/SignUp';
 import Favorites from '@Pages/Favorites';
 
-const Rotas = () => (
+export default function Rotas () {
+
+    return(
     <BrowserRouter>
         <Navbar />
         <Routes>
@@ -16,6 +18,5 @@ const Rotas = () => (
              <Route exact path="/app/favorites" element={<Favorites />} />
         </Routes>
     </BrowserRouter>
-);
-
-export default Rotas;
+    )
+};  

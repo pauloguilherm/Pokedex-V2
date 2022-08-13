@@ -1,5 +1,5 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = "https://localhost:44342/api"
+axios.defaults.baseURL = "https://pokedex-v2-api.azurewebsites.net/api/"
 
 export default axios;

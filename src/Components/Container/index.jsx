@@ -9,10 +9,10 @@ export function AppProvider (props) {
     const [userData, setUserData] = useState({});
 
     useEffect(()=> {
-        const data = JSON.parse(localStorage.getItem('user'));
+        const data = JSON.parse(sessionStorage.getItem('user'));
         if(!data) return;
         setUserData(data.user);
-    }, [props]);
+    }, []);
 
     return(
         <AppContext.Provider value={{search, setSearch, limitPokemons, setLimitPokemons, userData, setUserData}}>

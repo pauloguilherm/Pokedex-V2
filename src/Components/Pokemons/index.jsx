@@ -3,6 +3,7 @@ import {Card, CardHeader, CardBody, CardImg, CardTitle, Button, Badge} from 'rea
 import {AiOutlineArrowLeft} from 'react-icons/ai';
 import PropTypes from 'prop-types';
 import {toast} from 'react-toastify';
+import {v4} from 'uuid';
 
 
 import {AppContext} from '@Components/Container';
@@ -47,15 +48,17 @@ export default function Pokemons({data, loadData}){
 
         (async () => {
             const {data: {data}} = await getFavorites(userData.id);
-            setCatchs(data.map(pokemon => pokemon.name));
+            setCatchs(data.map(pokemon => pokemon.name.trim()));
         })();
     }, [userData.id]);
 
     const savePokemon = useCallback(async(name)=> {
+        const id = v4();
         const saveObj = {
+            id: parseInt(id),
             name: name,
             coach: userData.name,
-            coachId: userData.id,
+            coachid: userData.id,
         };
 
         const {data} = await catchPokemon(saveObj);
