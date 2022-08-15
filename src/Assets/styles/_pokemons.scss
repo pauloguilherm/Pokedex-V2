@@ -52,6 +52,23 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        width: 80%;
     }
 }
+};
+
+@media (max-width: 600px) {
+    .container-pokemon{
+        display: flex;
+        flex-direction: column;
+
+        .btn-infos{
+            width: 70px;
+            margin: 10px 0 0 0;
+        };
+
+        .container-badges{
+            display: none !important;
+        }
+    }
 }

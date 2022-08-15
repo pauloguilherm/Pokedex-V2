@@ -17,7 +17,7 @@ import PokeBag from '@Assets/pokebag.png';
 
 const NavBar = () => {
     const formRef = useRef(null);
-    const {setSearch} = useContext(AppContext)
+    const {setSearch} = useContext(AppContext);
   
     const handleSubmitForm = useCallback(async ({name}) => {
       const data = await getAllPokes(name)
@@ -50,13 +50,12 @@ const NavBar = () => {
                 <img title="Favorites" className="pokeBag" src={PokeBag} alt="Pokebag"/>
               </Link>
           </NavItem>
-
           <div className="nav-container-right">
               <NavItem>
                 <Form onSubmit={handleSubmitForm} ref={formRef}>
                   <Input name="name" placeholder="Search..." size="small"/>
-                  <Button type="submit" color="link">
-                    <FaSearch style={{color: 'white'}}/>
+                  <Button type="submit" color="link" className="btn-search">
+                    <FaSearch color='white'/>
                   </Button>
                 </Form>
               </NavItem>

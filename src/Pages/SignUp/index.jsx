@@ -50,7 +50,7 @@ export default function SignUp () {
                 <CustomInput name="email" label="Email" type="email"/>
                 <CustomInput type="password" name="password" label="Password"/>
                 <Button color="primary">{loading ? <Loading /> : 'Submit'}</Button>
-                <div className="d-flex justify-content-end">
+                <div className="d-flex justify-content-end w-100">
                     <Link to="../app/Auth/signIn">Are you a member? logIn</Link>
                 </div>
             </Form>

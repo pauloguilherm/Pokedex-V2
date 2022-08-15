@@ -51,8 +51,8 @@ export default function SignIn () {
                 <h1>Login</h1>
                 <CustomInput name="email" label="Email" type="email"/>
                 <CustomInput type="password" name="password" label="Password"/>
-                <Button type="submit" color="primary">{loading ? <Loading /> : 'Submit'}</Button>
-                <div className="d-flex justify-content-end">
+                <Button type="submit" color="primary" size="small" >{loading ?  <Loading /> : 'Submit'}</Button>
+                <div className="d-flex justify-content-end w-100">
                     <Link to="../app/Auth/signUp">Create account</Link>
                 </div>
             </Form>

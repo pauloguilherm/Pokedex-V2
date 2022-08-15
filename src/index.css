@@ -319,6 +319,7 @@ template {
   align-items: center;
   margin: 0;
   height: 47px;
+  width: 100%;
 }
 .nav-item {
   list-style: none;
@@ -344,6 +345,28 @@ template {
   margin-left: 80px;
 }
 
+@media (max-width: 600px) {
+  .nav {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .nav .pokeBag-container {
+    margin: 0 0 0 0;
+  }
+  .nav .nav-container-right {
+    width: 60%;
+  }
+  .nav .nav-container-right input {
+    width: 116%;
+  }
+  .nav .nav-container-right .btn-search {
+    width: 25%;
+  }
+  .nav .nav-container-right svg {
+    margin: 0 0 0 10px;
+    width: 20px;
+  }
+}
 .buttonMore {
   padding: 30px;
 }
@@ -396,8 +419,22 @@ template {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 80%;
 }
 
+@media (max-width: 600px) {
+  .container-pokemon {
+    display: flex;
+    flex-direction: column;
+  }
+  .container-pokemon .btn-infos {
+    width: 70px;
+    margin: 10px 0 0 0;
+  }
+  .container-pokemon .container-badges {
+    display: none !important;
+  }
+}
 .modal-title {
   display: flex;
   justify-content: space-between;
@@ -434,16 +471,21 @@ template {
   margin-bottom: 13px;
 }
 
+@media (max-width: 600px) {
+  .modal .container-status {
+    display: flex;
+    flex-direction: column;
+  }
+}
 .badge {
   padding: 10px;
   margin-left: 20px;
 }
 
 .lds-hourglass {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lds-hourglass:after {
@@ -452,10 +494,9 @@ template {
   border-radius: 50%;
   width: 0;
   height: 0;
-  margin: 8px;
   box-sizing: border-box;
-  border: 32px solid #0d6efd;
-  border-color: #0d6efd transparent #0d6efd transparent;
+  border: 20px solid white;
+  border-color: white transparent white transparent;
   -webkit-animation: lds-hourglass 1.2s infinite;
           animation: lds-hourglass 1.2s infinite;
 }
@@ -493,6 +534,17 @@ template {
 }
 .btn {
   border: none;
+  width: 94%;
+}
+.btn:hover, .btn:focus, .btn:active, .btn:active {
+  box-shadow: none !important;
+}
+.btn-infos {
+  height: 35px !important;
+  width: 10rem;
+}
+.btn-search {
+  width: 7rem;
 }
 
 .container-user {
@@ -505,6 +557,7 @@ template {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  align-items: center;
 }
 
 .error {

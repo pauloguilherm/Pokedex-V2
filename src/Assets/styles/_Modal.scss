@@ -45,3 +45,12 @@
         }
     }
 }
+
+@media (max-width: 600px) {
+    .modal{
+        .container-status{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+};

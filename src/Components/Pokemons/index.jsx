@@ -102,7 +102,7 @@ export default function Pokemons({data, loadData}){
                         <CardImg src={pokemon?.img} alt={pokemon?.name} />
                     </CardHeader>
 
-                    <CardBody className={!search?.search ? 'card-search d-flex flex-row justify-content-between' : ''}>
+                    <CardBody className='d-flex flex-row justify-content-between'>
                         <div className="d-flex justify-content-center cursor-pointer">
                             <CardTitle>
                                 <img 
@@ -112,11 +112,11 @@ export default function Pokemons({data, loadData}){
                                 />
                                  - {pokemon?.name}
                             </CardTitle>
-                            <div className="d-flex align-items-center">
+                            <div className="container-badges flex align-items-center">
                                 {pokemon.types.map((type) => <Badge key={type} color="link" style={{color: 'white', backgroundColor: getTypeColor(pokemon?.types)}}>{type}</Badge>)}    
                             </div>
                         </div>
-                        <Button color="primary" onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
+                        <Button color="primary" className="btn-infos" onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
                     </CardBody>
                 </Card>
                 </div>

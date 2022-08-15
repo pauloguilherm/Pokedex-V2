@@ -1,5 +1,5 @@
-import {Modal, ModalHeader, ModalBody, ModalFooter, Button} from 'reactstrap';
-import React, {useState, useEffect} from 'react';
+import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import React, {useState, useEffect, useMemo} from 'react';
 import {PropTypes} from 'prop-types';
 import {CgCloseO} from 'react-icons/cg';
 
@@ -32,15 +32,20 @@ function GenericModal ({isOpen, setIsOpen, data}) {
         setPokeData(evolutionsObj);
     };
 
-
     useEffect(()=> {
         evolutions();
     }, [data]);
+
+    const closeIcon = useMemo(()=> <CgCloseO 
+    onClick={()=> setIsOpen(prev => !prev)}
+    color="black"
+    className="cursor-pointer"
+    />, [setIsOpen]);
+
     return(
     <Modal isOpen={isOpen} toggle={() => setIsOpen(prev => !prev)}>
-        <ModalHeader style={{backgroundColor: getTypeColor(data?.types) }}>
-            <strong>{data?.name.toUpperCase()}</strong>
-            <Button color="black" onClick={()=> setIsOpen(prev => !prev)}><CgCloseO/></Button>
+        <ModalHeader close={closeIcon} style={{backgroundColor: getTypeColor(data?.types)}}>
+            {data?.name.toUpperCase()}
         </ModalHeader>
         <ModalBody className="d-flex justify-content-center">
             <img src={data?.img} alt={data.name}/>
@@ -56,8 +61,8 @@ function GenericModal ({isOpen, setIsOpen, data}) {
                     if(evolution.name === data.name || evolution.visible) return;
                     return(
                         <div className="d-flex flex-direction-column-reverse">
-                        <strong>{evolution.name}</strong>
-                        <img src={evolution.img} alt={evolution.name}/>
+                            <strong>{evolution.name}</strong>
+                            <img src={evolution.img} alt={evolution.name}/>
                         </div>
                     )
                 })}
