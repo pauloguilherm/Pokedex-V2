@@ -1,0 +1,19 @@
+.btn{
+    border: none;
+    width: 94%;
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:active{
+        box-shadow: none !important;
+    }
+
+    &-infos{
+        height: 35px !important;
+        width: 10rem;
+    }
+    &-search{
+        width: 7rem;
+    }
+}

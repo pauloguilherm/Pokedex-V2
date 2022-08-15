@@ -1,74 +1,82 @@
-import {Modal, ModalHeader, ModalBody, ModalFooter, Button, Badge} from 'reactstrap';
-import React from 'react';
-import PropTypes from 'prop-types';
+import {Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import React, {useState, useEffect, useMemo} from 'react';
+import {PropTypes} from 'prop-types';
+import {CgCloseO} from 'react-icons/cg';
 
-const genericModal = ({isOpen, setIsOpen, data}) => {
-    const typeStyle = (type) => {
-        switch(type) {
-            case 'normal':
-                return 'primary';
-            case 'fighting':
-                return 'danger';
-            case 'flying':
-                return 'info';
-            case 'poison':
-                return 'warning';
-            case 'ground':
-                return 'secondary';
-            case 'rock':
-                return 'dark';
-            case 'bug':
-                return 'success';
-            case 'ghost':
-                return 'light';
-            case 'steel':
-                return 'secondary';
-            case 'fire':
-                return 'danger';
-            case 'water':
-                return 'primary';
-            case 'grass':
-                return 'success';
-            case 'electric':
-                return 'warning';
-            case 'psychic':
-                return 'info';
-            case 'ice':
-                return 'primary';
-            case 'dragon':
-                return 'info';
-            case 'dark':
-                return 'dark';
-            case 'fairy':
-                return 'warning';
-            default:
-                return 'secondary';
-        }
+
+import {getEvolutions, getAllPokes} from '@Hooks/api';
+import {getTypeColor} from '@Utils/customizes';
+
+function GenericModal ({isOpen, setIsOpen, data}) {
+    const [pokeData, setPokeData] = useState([]);
+
+    const handleValidateEvolution = (dataID, evolutionID) => evolutionID * 3 === dataID;
+
+    const evolutions = async () =>{
+        const evolutions = await getEvolutions(data.id);
+        const firstEvolution = evolutions.data.chain.evolves_to[0].species;
+        const firstEvolutionImg = await getAllPokes(firstEvolution.name).then((res)=> res.data.sprites.front_default);
+        const secondEvolution = evolutions.data.chain.evolves_to[0].evolves_to[0].species;
+        const secondEvolutionImg = await getAllPokes(secondEvolution.name).then((res)=> res.data.sprites.front_default);
+        const evolutionsObj = [
+            {
+            name: firstEvolution.name,
+            img: firstEvolutionImg,
+            visible: handleValidateEvolution(data.id, evolutions.data.id)
+            },
+            {
+            name: secondEvolution.name,
+            img: secondEvolutionImg,
+            },
+        ];
+        setPokeData(evolutionsObj);
     };
+
+    useEffect(()=> {
+        evolutions();
+    }, [data]);
+
+    const closeIcon = useMemo(()=> <CgCloseO 
+    onClick={()=> setIsOpen(prev => !prev)}
+    color="black"
+    className="cursor-pointer"
+    />, [setIsOpen]);
+
     return(
-    <Modal isOpen={isOpen} toggle={() => setIsOpen(!isOpen)}>
-        <ModalHeader>
-            <h6>{data?.name}</h6>
-            <span>{data.types.map((type)=> (<Badge color={typeStyle(type)}>{type}</Badge>))}</span>
+    <Modal isOpen={isOpen} toggle={() => setIsOpen(prev => !prev)}>
+        <ModalHeader close={closeIcon} style={{backgroundColor: getTypeColor(data?.types)}}>
+            {data?.name.toUpperCase()}
         </ModalHeader>
         <ModalBody className="d-flex justify-content-center">
             <img src={data?.img} alt={data.name}/>
             <div className="container-status">
                 {data?.statistcs?.map((stat, key)=> (
-                    <span key={key}> {stat.name.toUpperCase()} : {stat.status} </span>
+                    <strong key={key}> {stat.name.toUpperCase()} : {stat.status} </strong>
                 ))}
             </div>
         </ModalBody>
-        <ModalFooter className="d-flex justify-content-start">
+        <ModalFooter className="d-flex">
+            {!pokeData[0]?.visible && <h4 className="d-flex justify-content-flex-start">Evolutions</h4>}
+                {pokeData?.map((evolution) => {
+                    if(evolution.name === data.name || evolution.visible) return;
+                    return(
+                        <div className="d-flex flex-direction-column-reverse">
+                            <strong>{evolution.name}</strong>
+                            <img src={evolution.img} alt={evolution.name}/>
+                        </div>
+                    )
+                })}
+            <div>
+            </div>
         </ModalFooter>
     </Modal>
      )
 };
 
-genericModal.propTypes = {
+GenericModal.propTypes = {
     isOpen: PropTypes.bool,
     setIsoOpen: PropTypes.func,
     data: PropTypes.object,
 };
 
-export default genericModal;
+export default GenericModal;

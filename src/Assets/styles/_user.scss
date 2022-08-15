@@ -1,0 +1,13 @@
+.container-user{
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    height: 100vh;
+
+    form{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+}

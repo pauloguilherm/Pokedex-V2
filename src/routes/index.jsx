@@ -1,20 +1,22 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from '../Components/Navbar';
-import Home from '../Components/Home';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import Navbar from '@Components/Navbar';
+import Home from '@Pages/Home';
+import SignIn from '@Pages/SignIn';
+import SignUp from '@Pages/SignUp';
+import Favorites from '@Pages/Favorites';
 
-
-const Rotas = () =>{
+export default function Rotas () {
 
     return(
-        <BrowserRouter>
-            <Navbar />
-            <Routes>
-                <Route exact path="/" element={<Home />}/>
-               {/*  <Route exact path="/pokemon/:id" element={<Pokemon />} /> */}
-               {/*  <Route path="*" element={<Error />} /> */}
-            </Routes>
-        </BrowserRouter>
+    <BrowserRouter>
+        <Navbar />
+        <Routes>
+            <Route path="/" element={<Navigate to="/app"/>} />
+            <Route path="/app" element={<Home />}/>
+             <Route path="/app/Auth/signIn" element={<SignIn />} />
+             <Route path="/app/Auth/signUp" element={<SignUp />} />
+             <Route path="/app/favorites" element={<Favorites />} />
+        </Routes>
+    </BrowserRouter>
     )
-}
-
-export default Rotas;
+};  

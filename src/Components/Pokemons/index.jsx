@@ -1,55 +1,125 @@
-import {useState, useEffect, useCallback} from 'react';
+import {useState, useEffect, useCallback, useContext} from 'react';
+import {Card, CardHeader, CardBody, CardImg, CardTitle, Button, Badge} from 'reactstrap';
+import {AiOutlineArrowLeft} from 'react-icons/ai';
 import PropTypes from 'prop-types';
-import {Card, CardHeader, CardBody, CardImg, CardTitle, Button} from 'reactstrap';
-import {getAllPokes} from '../../Service/api';
-import Modal from '../Modal';
+import {toast} from 'react-toastify';
+import {v4} from 'uuid';
 
-export default function Pokemons({data}){
+
+import {AppContext} from '@Components/Container';
+import {Modal} from '@Components';
+import {getAllPokes} from '@Hooks/api';
+import {catchPokemon, getFavorites, deleteFavorite} from '@Hooks/pokemons';
+import {getStatistcs, getType, getTypeColor} from '@Utils/customizes';
+
+import ClosedPokeBall from '@Assets/pokeBolaFechada.png';
+import OpenPokeBall from '@Assets/pokeBolaAberta.png';
+
+export default function Pokemons({data, loadData}){
+    const {search, setSearch, userData} = useContext(AppContext);
     const [pokemons, setPokemons] = useState([]);
     const [openModal, setOpenModal] = useState();
+    const [catchs, setCatchs] = useState([]);
 
     const getAll = useCallback(() =>{
-        data?.map(async(poke) => {
+        const pokeObj = []
+        data?.forEach(async(poke, key) => {
            const data = await getAllPokes(poke.name)
-           const pokeObj = {
-                name: poke.name,
-                img: data.data.sprites.other.dream_world.front_default,
-                statistcs: getStatistcs(data.data.stats),
-                types: getType(data.data),
-           }
-           setPokemons((state)=> [...state, pokeObj]); 
+           pokeObj[key] = 
+           {
+              id: data.data.id,
+              name: data.data.name,
+              img: data.data.sprites.other.dream_world.front_default,
+              statistcs: getStatistcs(data.data.stats),
+              types: getType(data.data),
+            }
         }); 
-    }, [data]);
+        setTimeout(()=> {
+            setPokemons(pokeObj);
+        },200)
+    },[data]);
 
-    const getStatistcs = (stats) => {
-        const pokeStatistic = stats.map((stat)=> (
-            {name: stat.stat.name, status: stat.base_stat }
-        ));
-        return pokeStatistic;
-    };
+    useEffect(()=> {
+        if(search?.search) setPokemons([search]);
+    }, [search])
 
-    const getType = (data) => {
-        let type = data?.types?.map((pokeType)=> (
-            pokeType.type.name
-        ))
-        return type;
-    };
+    useEffect(()=> {
+        if(!userData.id) return;
+
+        (async () => {
+            const {data: {data}} = await getFavorites(userData.id);
+            setCatchs(data.map(pokemon => pokemon.name.trim()));
+        })();
+    }, [userData.id]);
+
+    const savePokemon = useCallback(async(name)=> {
+        const id = v4();
+        const saveObj = {
+            id: parseInt(id),
+            name: name,
+            coach: userData.name,
+            coachid: userData.id,
+        };
+
+        const {data} = await catchPokemon(saveObj);
+        if(!data.success){
+            return toast.error(data.message);
+        };
+        setCatchs(prev => [...prev, name]);
+        return toast.success(data.message);
+        
+    }, [userData]);
+
+    const deletePokemon = useCallback(async (name)=> {
+        const saveObj = {
+            name: name,
+            coach: userData.name,
+            coachId: userData.id,
+        };
+        const {data} = await deleteFavorite(saveObj);
+        if(!data.success){
+            return toast.error(data.message);
+        };
+        
+        setCatchs(prev => prev.filter(pokemon => pokemon !== name));
+        return toast.success(data.message);
+    }, [userData]);
 
     useEffect(getAll, [getAll]);
 
     return(
-        <div className="container-pokemons"> 
-            {pokemons?.map((item, key)=> (
-                <Card key={key}>
-                    {openModal === item.name && <Modal isOpen={true} setIsOpen={setOpenModal} data={item}/>}
-                    <CardHeader>
-                        <CardImg src={item?.img} alt={item.name} />
+        <div className={search?.search ? 'container-pokemon-only container-pokemon' : 'container-pokemon'}>
+            {pokemons?.map((pokemon) => (
+                <div key={pokemon.name}>
+                {search?.search && 
+                    <Button style={{marginLeft: '20px'}} className="d-flex justify-content-start " color="link" onClick={()=> {loadData(); setSearch(false);}}>
+                        <AiOutlineArrowLeft size="50"/>
+                    </Button>}
+                <Card>
+                    {pokemon?.id === openModal && <Modal isOpen={pokemon?.id === openModal} setIsOpen={setOpenModal} data={pokemon} />}
+
+                    <CardHeader style={{ backgroundColor: getTypeColor(pokemon?.types) }}>
+                        <CardImg src={pokemon?.img} alt={pokemon?.name} />
                     </CardHeader>
-                    <CardBody>
-                        <CardTitle>{item?.name}</CardTitle>
-                        <Button color="primary" onClick={()=> setOpenModal(item.name)}>Infos</Button>
+
+                    <CardBody className='d-flex flex-row justify-content-between'>
+                        <div className="d-flex justify-content-center cursor-pointer">
+                            <CardTitle>
+                                <img 
+                                    src={catchs.includes(pokemon.name) ?  ClosedPokeBall : OpenPokeBall} 
+                                    onClick={()=> catchs.includes(pokemon.name) ? deletePokemon(pokemon.name) : savePokemon(pokemon.name)}
+                                    alt={pokemon.name}
+                                />
+                                 - {pokemon?.name}
+                            </CardTitle>
+                            <div className="container-badges flex align-items-center">
+                                {pokemon.types.map((type) => <Badge key={type} color="link" style={{color: 'white', backgroundColor: getTypeColor(pokemon?.types)}}>{type}</Badge>)}    
+                            </div>
+                        </div>
+                        <Button color="primary" className="btn-infos" onClick={() => setOpenModal(pokemon?.id)}>Infos</Button>
                     </CardBody>
                 </Card>
+                </div>
             ))}
         </div>
     )
@@ -57,4 +127,5 @@ export default function Pokemons({data}){
 
 Pokemons.propTypes = {
     data: PropTypes.array.isRequired,
+    loadData: PropTypes.func,
 };

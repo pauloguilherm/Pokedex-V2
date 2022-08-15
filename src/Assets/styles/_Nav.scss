@@ -1,0 +1,67 @@
+.nav{
+    background-color: #9cbcaf;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    height: 47px;
+    width: 100%;
+    
+       &-item{
+          list-style: none;
+       }
+
+       &-container-right{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 23%;
+       }
+
+       form{
+         display: flex;
+         flex-direction: row-reverse;
+       }
+       
+       .formSearch{
+         display: grid;
+         grid-template-columns: 1fr;
+       }
+
+       .pokeBag{
+        width: 37px;
+       }
+
+       .pokeBag-container{
+        margin-left: 80px;
+       }
+} 
+
+@media (max-width: 600px) {
+  .nav{
+    display: flex;
+    justify-content: space-evenly;
+
+      .pokeBag-container{
+        margin: 0 0 0 0;
+      }
+
+      .nav-container-right{
+        width: 60%;
+
+        input{
+          width: 116%;
+        }
+
+        .btn-search{
+          width: 25%;
+        }
+
+        svg{
+          margin: 0 0 0 10px;
+          width: 20px;
+        }
+      }
+  }
+};
