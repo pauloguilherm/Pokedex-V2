@@ -25,7 +25,7 @@ export default function SignUp () {
             await schema.validate(payload, {abortEarly: false});
             const {data} = await registerUser(payload);
             if(data?.success) {
-                navigate('app/Auth/signIn');
+                navigate('../app/Auth/signIn');
                 return toast.success('user created');
             };
             return toast.error("Username or email already registered");
