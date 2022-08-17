@@ -53,9 +53,8 @@ export default function Pokemons({data, loadData}){
     }, [userData.id]);
 
     const savePokemon = useCallback(async(name)=> {
-        const id = v4();
         const saveObj = {
-            id: parseInt(id),
+            id: Math.floor(Math.random() * 10 + 1),
             name: name,
             coach: userData.name,
             coachid: userData.id,
@@ -67,7 +66,6 @@ export default function Pokemons({data, loadData}){
         };
         setCatchs(prev => [...prev, name]);
         return toast.success(data.message);
-        
     }, [userData]);
 
     const deletePokemon = useCallback(async (name)=> {
