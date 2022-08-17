@@ -2,14 +2,15 @@ import {useCallback, useRef, useState} from 'react';
 import {useNavigate, Link} from 'react-router-dom';
 import {Button} from 'reactstrap';
 import {toast} from 'react-toastify';
+import {Form} from '@unform/web';
 import * as Yup from 'yup';
 import {PropTypes} from 'prop-types';
 
 
-import {Form} from '@unform/web';
 import {CustomInput} from '@Components/Form';
-import {registerUser} from '@Hooks/user';
 import Loading from '@Components/Loading';
+import {registerUser} from '@Hooks/user';
+import usePreventForm from '@Utils/usePreventForm';
 
 
 import schema from './schema';
@@ -19,6 +20,8 @@ export default function SignUp () {
     const formRef = useRef(null);
     const navigate = useNavigate();
 
+    usePreventForm({formRef});
+    
     const handleSubmitForm = useCallback(async(payload) => {
         setLoading(true);
         try{

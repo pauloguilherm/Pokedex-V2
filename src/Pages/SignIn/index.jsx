@@ -11,6 +11,7 @@ import {CustomInput} from '@Components/Form';
 import {login} from '@Hooks/user';
 import {AppContext} from '@Components/Container';
 import {saveUser} from '@Auth';
+import usePreventForm from '@Utils/usePreventForm';
 import schema from './schema';
 
 export default function SignIn () {
@@ -19,6 +20,8 @@ export default function SignIn () {
     const {setUserData} = useContext(AppContext);
     const navigate = useNavigate();
     
+    usePreventForm({formRef});
+
     const handleSubmitForm = useCallback(async(payload) => {
         setLoading(true);
         try{
